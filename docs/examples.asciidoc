@@ -1,0 +1,132 @@
+= Class Scheduling Examples
+
+_A set of example messages using the Class Scheduling media type and the
+Class Scheduling Problem Domain._
+
+[horizontal]
+Date :: Janusay 2013
+Author :: http://twitter.com/mamund[Mike Amundsen],
+Principal API Architect for http://layer7tech.com[Layer 7 Technologies]
+Status :: Version 1.0
+
+== Summary
+
+[NOTE]
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", 
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this 
+document are to be interpreted as described in 
+http://tools.ietf.org/html/rfc2119[RFC2119].
+
+=== Document Layout
+Class Schedule documents have a very simple (top-level) layout:
+
+----
+<root>
+   <links />
+   <list />
+   <error />
+</root>
+----
+
+Each document MUST have a +<root>+ element. All other top-level elements 
+are OPTIONAL.
+
+== Document Samples
+There are a number of Class Scheduling documents where are quite minimal.
+
+=== Smallest Valid Document
+The smallest valid Class Scheduling document is one that only contains 
+the +root+ element.
+
+----
+<root />
+----
+
+=== Link Document
+It is valid to return a document that only contains +links+.
+
+----
+include::examples/links.xml[]
+----
+
+=== Error Document
+If an error occurs on the server, it MAY return a document with only the
++error+ element.
+
+----
+include::examples/error.xml[]
+----
+
+=== List Document
+Below is a +course+ +list+ each with a +link+ to the +course+ +item+ resource.
+
+----
+include::examples/course-list.xml[]
+----
+
+=== Item Document
+Below is a ready-only +course+ +item+ resource.
+----
+include::examples/course-item.xml[]
+----
+
+=== Multiple List Document
+It is valid for a reply to contain more than one list block. Below is a document
+that contains a list of +courses+ and a list of +students+.
+
+----
+include::examples/course-student-list.xml[]
+----
+
+=== Mixing Item and List in a Document
+It is valid to provide one or more items along with a list all in the same 
+document. Below is a document that shows a +course+ item and a list of 
++student+ records.
+
+----
+include::examples/course-item-student-list.xml[]
+----
+
+=== Action-Only Item Document
+It is valid for an item to contain no +display+ element but still have an
++action+ element. Below is a document that shows a set of possible 
+client-server interactions for an existing +schedule+ item.
+
+----
+include::examples/schedule-actions.xml[]
+----
+
+== Extended Documents
+Servers MAY return documents that contain domain values not defined by the
+Class Schedule Media Type and/or the Class Schedule Problem Domain. Clients
+MAY attempt to render and/or process documents that contain unknown markup. 
+Clients SHOULD NOT reject any documents that contain unknown elements or
+or attributes.
+
+=== Unknown elements and attributes
+Clients MAY ignore any unknown elements and attributes that appear in a
+Class Scheduling document. 
+
+=== Unknown +list.name+ and +item.name+ Values
+Clients MAY render and/or process any +list+ or +item+ element that is 
+marked with an unknown +name+ value.
+
+=== Unknown +link.name+ and +template.name+ Values
+Clients MAY ignore any +link+ or +template+ that is marked with an unknown
++name+ value. 
+
+=== Unknown +data.name+ Values 
+Clients SHOULD treat any unknown +name+ values on a +data+ element as 
+OPTIONAL. When an unknown +data.name+ value appears within a +template+, it 
+SHOULD be included in the request by passing the server-supplied value. 
+Clients MAY provide a new value for unknown +data+ elements.
+
+=== Unknown +action+ Values
+Clients SHOULD treat any unknown +action+ values as _unsafe_. 
+
+[[acknowledgements]]
+== Acknowledgements
+This work was done with the support of http://layer7tech.com[Layer 7 Technologies]
+as part of a series of articles for the http://infoq.com[InfoQ] Web site.
+
+

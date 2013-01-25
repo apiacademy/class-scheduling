@@ -1,0 +1,47 @@
+= Class Scheduling
+
+_A hypermedia design for scheduling classes_
+
+[horizontal]
+Date :: January 2013
+Author :: http://twitter.com/mamund[Mike Amundsen], Principal API Architect
+for http://layer7tech.com[Layer 7 Technologies].
+Status :: Version 1.0
+
+== Summary
+This document provides design and implementation documentation for the
+Class Scheduling problem domain. It is meant to demonstrate the general 
+principles of authoring and implementing a domain-specific hypermedia-style 
+API for the Web. This design is extremely limited and is offered as a sample, 
+not a production-level specification.
+
+== Design
+The design phase of this project consists of the following:
+
+. link:media-type.html[Class Scheduling Media Type]
+. link:problem-domain.html[Class Scheduling Problem Domain]
+. link:examples.html[Class Scheduling Examples]
+
+Developers wishing to create compliant implementations should first read
+through the link:media-type.html[Class Scheduling Media Type] documentation
+to learn how to recognize, parse, and process valid Class Scheduling messages.
+The rules are the same for both client and server.
+
+Next, developers should consult the link:problem-domain.html[Class Scheduling
+Problem Domain] documentation to know what the values of the +name+ and 
++action+ attributes represent within valid messages.
+
+If needed, consult the link:examples.html[Class Scheduling Examples] document
+for concrete examples of valid messages.
+
+== Server Implementation
+_Not yet available._
+
+== Client Implemenation
+_Not yet available._
+
+[[acknowledgements]]
+== Acknowledgements
+This work was done with the support of http://layer7tech.com[Layer 7 Technologies]
+as part of a series of articles for the http://infoq.com[InfoQ] Web site.
+

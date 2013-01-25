@@ -1,0 +1,20 @@
+<!-- list document -->
+<root>
+  <list name="course">
+    <item name="course">
+      <actions>
+        <link href="/c1" name="course" action="read" prompt="Hypermedia 101" />
+      </actions>
+    </item>
+    <item name="course">
+      <actions>
+        <link href="/c2" name="course" action="read" prompt="Intro to Javascript" />
+      </actions>
+    </item>
+    <item name="course">
+      <actions>
+        <link href="/c3" name="course" action="read" prompt="Advanced Caching" />
+      </actions>
+    </item>
+  </list>
+</root>

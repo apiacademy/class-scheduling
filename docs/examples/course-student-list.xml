@@ -1,0 +1,37 @@
+<!-- multi-list document --i>
+<root>
+  <list name="course">
+    <item name="course">
+      <actions>
+        <link href="/c1" name="course" action="read" prompt="Hypermedia 101" />
+      </actions>
+    </item>
+    <item name="course">
+      <actions>
+        <link href="/c2" name="course" action="read" prompt="Intro to Javascript" />
+      </actions>
+    </item>
+    <item name="course">
+      <actions>
+        <link href="/c3" name="course" action="read" prompt="Advanced Caching" />
+      </actions>
+    </item>
+  </list>
+  <list name="student">
+    <item name="student">
+      <actions>
+        <link href="/s1" name="student" action="read" prompt="Smith, Mary" />
+      </actions>
+    </item>
+    <item name="student">
+      <actions>
+        <link href="/s2" name="student" action="read" prompt="Smythe, Melvin" />
+      </actions>
+    </item>
+    <item name="student">
+      <actions>
+        <link href="/s3" name="student" action="read" prompt="Smytor, Mighty" />
+      </actions>
+    </item>
+  </list>
+</root>

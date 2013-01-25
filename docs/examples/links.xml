@@ -1,0 +1,8 @@
+<!-- link document -->
+<root>
+  <links>
+    <link href="/home" name="home" action="read" prompt="Home Page" />
+    <link href="/schedules" name="schedule" action="list" prompt="Schedules" />
+  </links>
+</root>
+

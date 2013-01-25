@@ -1,0 +1,8 @@
+<!-- error document -->
+<root>
+  <error>
+    <data name="errorTitle" value="Missing Course Title" />
+    <data name="errorMessage" value="Please supply a course title to continue." />
+  </error>
+</root>
+

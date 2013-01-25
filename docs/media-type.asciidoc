@@ -1,0 +1,363 @@
+= Class Scheduling Media Type
+
+_A domain-specific media type design for managing class schedules._
+
+[horizontal]
+Date:: January 2013
+Author:: http://twitter.com/mamund[Mike Amundsen], 
+Principal API Architect for http://layer7tech.com[Layer 7 Technologies] 
+IANA Status:: +application/vnd.apiacademy-scheduling+xml+ Unregistered.
+
+[[summary]]
+== Summary
+This document defines a media type for managing class scheduling. It is meant 
+to demonstrate the general principles of authoring a domain-specific 
+hypermedia-style API. This design is extremely limited and is offered as a 
+sample, not a production-level specification.
+
+=== Layout
+This media type defines three primary elements (+<<links>>+, +<<list>>+, and
++<<error>>+). Each +<<list>>+ element can have one or more +<<item>>+ elements.
+Each +<<item>>+ element can have one +<<display>>+ element and one +<<actions>>+
+element. The +<<display>>+ element can have one or more +<<data>>+ elements 
+(client may choose to render these for humans). The +<<actions>>+ element
+may contain one more more +<<template>>+ and/or +<<link>>+ elements. These can
+be used to execute client-server interactions. The +<<error>>+ element may 
+also contain one or more +<<data>>+ elements. 
+
+=== Interactions
+Client-server interactions are defined by +<<link>>+ and +<<template>>+ elements
+using +<<data>>+ child elements and +<<action>>+ attributes. The +<<action>>+ 
+atributes are domain-specific +<<ID>>+ values that can be mapped to selected
+Internet protocols (e.g. HTTP, WebSockets, etc.). This specification supplies
+the <<protocol-mapping, Protocol Mapping>> for HTTP. Other mappings may be added
+in the future.
+
+
+[NOTE]
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", 
+"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be 
+interpreted as described in http://tools.ietf.org/html/rfc2119[RFC2119].
+
+[[element-map]]
+== Element Map
+Below is a complete map of the Class Scheduling media type design. This 
+includes all the possible elements and attributes. Some of the elements MAY
+appear multiple times within a single parent element (indicated by the 
+comments below). Additional details on the rules for each element and attribute
+appear later in this specification.
+
+[NOTE]
+This media type is based on the http://www.w3.org/TR/xml/[XML] media type and
+every valid Class Scheduling document is also a well-formed XML document. 
+
+----
+<root>
+  
+  <links>
+    <link href="..." name="..." action="..." prompt="..." />
+    <!-- additional link elements -->
+  </links>
+  
+  <list name="...">
+    <item name="...">
+      <display>
+        <data name="..." value="..." prompt="..." embed="true|false" />
+        <!-- additional data elements -->
+      </display>
+  
+      <actions>
+        <template name="... action="... href="...">
+          <data name="..." value="..." prompt="..." />
+          <!-- additional data elements -->
+        </template>
+        <!-- additional template elements -->
+        <link name="..." action="..." href="..." prompt="..." />
+        <!-- additional link elements -->
+      </actions>
+    </item>
+    <!-- additional item elements -->
+  
+  </list>
+  <!-- additional list elements -->
+  
+  <error>
+    <data name="..." value="..." prompt="..." />
+    <!-- additional data elements -->
+  </error> 
+
+</root>
+----
+
+[[elements]]
+== Elements
+Below is a list of the unique elements in the Class Scheduling media type.  
+
+[[root]]
+=== root
+The +root+ element is the very fist element in the document. It is a REQUIRED
+element. It MAY have +<<links>>+, +<<list>>+, or +<<error>>+ child elements.
+It MUST appear only once in a document.
+
+----
+<root>
+   <links />
+   <list />
+   <error />
+</root>
+----
+
+[[links]]
+=== links
+The +links+ element defines a list of client-sever interactions. It SHOULD
+have one or more +<<link>>+ child elements. It is an OPTIONAL element. It 
+MUST appear as a child of the +<<root>>+ element. It MUST appear only once 
+in a document.
+
+----
+<links>
+  <link />
+  ...
+</links>
+----
+
+[[link]]
+=== link
+The +link+ element defines a client-server interaction. It MUST have
++<<href>>+ and +<<action>>+ attributes. It MAY have +<<name>>+ and +<<prompt>>+
+attributes. This elements MAY appear as a child element of the +<<links>>+ 
+element and the +<<actions>>+ element. It is an OPTIONAL element. It MAY appear
+multiple times in a document.
+
+----
+<link href="..." name="..." action="..." prompt="..." />
+----
+
+[[list]]
+=== list
+The +list+ element indicates a list resources on the server. It SHOULD have
+one or more +<<item>>+ child elements. It MAY have a +<<name>>+ attribute.
+It is an OPTIONAL element. This element MUST appear as a child element of
+the +<<root>> element. It MAY appear more than once in a document.
+
+----
+<list name="...">
+   <item />
+   ...
+</list>
+----
+
+[[item]]
+=== item
+The +item+ element defines a single resource on the server. This element
+MAY have a +<<display>>+ and/or +<<actions>>+ child element. It MAY have a
++<<name>>+ attribute. It is an OPTIONAL element. This element MUST appear
+as a child element of the +<<list>>+ element. It MAY appear more than once
+in a +<<list>>+ element.
+
+----
+<item name="...">
+   <display />
+   <actions />
+</item>
+----
+
+[[display]]
+=== display
+The +display+ element defines a set of display values for an +<<item>>+. This
+element SHOULD have one or more +<<data>>+ child elements. It is an OPTIONAL
+element. It MUST appear as a child element of the +<<item>>+ element. This
+element MUST appear no more than once in an +<<item>>+ element.
+
+----
+<display>
+   <data />
+   ...
+</display>
+----
+
+[[data]]
+=== data
+The +data+ element defines a data-point in the document. This element MUST
+have +<<name>>+ and +<<value>>+ attributes. It MAY have +<<prompt>>+ and
++<<embed>>+ attributes. This is an OPTIONAL element. It MAY appear as a
+child element of +<<template>>+, +<<display>>+, and +<<error>>+ elements. It 
+MAY occur multiple times.
+
+----
+<data name="..." value="..." prompt="..." embed="true|false" />
+----
+
+[[actions]]
+=== actions
+The +actions+ element contains a list of possible client-server interactions.
+It SHOULD have one or more +<<template>>+ and/or +<<link>>+ child elements.
+This is an OPTIONAL element. The +actions+ element MUST appear only once as a 
+child of the  +<<item>>+ element. 
+
+----
+<actions>
+   <template />
+   ...
+   <link />
+   ...
+</actions>
+----
+
+[[template]]
+=== template
+The +template+ element is used to define a client-server interaction. This
+elemust MUST have +<<href>>+ and +<<action>>+ attributes and MAY have
+a +<<name>>+ attribute. It MAY have one or more +<<data>>+ child elements.
+This is an OPTIONAL element. The +template+ element MUST appear as a child 
+of the +<<actions>>+ element. It may occur multiple times.
+
+----
+<template href="..." name="..." action="...">
+  <data />
+</template>
+----
+
+[[error]]
+=== error
+The +error+ element is used to indicate any details regarding an error that
+occurred in the last request. It SHOULD have one or more +<<data>>+ child 
+elements. This is an OPTIONAL element. The +error+ element MUST appear as a 
+child of the +<<root>>+ element. It MUST appear only once in a document.
+
+----
+<error>
+   <data />
+   ...
+</error>
+----
+
+[[attributes]]
+== Attributes
+Below are the unique attributes in the Class Scheduling media type.
+
+[[name]]
+=== name
+
+The +name+ attribute is used to identify the element. This does not need to
+be a unique value in the document (e.g. there can be more than one 
++name="product"+ in the same document). This value for this attribute MUST 
+NOT be left empty and it MUST be a valid <<ID>> value.
+
+[[value]]
+=== value
+The +value+ attribute is used to hold general strings. The value of this 
+attribute MAY be left empty and MUST be a valid <<TEXT>> value.
+
+[[action]]
+=== action
+The +action+ attribute holds the identifier of the action the client can
+execute. The value of this attribute MUST be a valid <<ID>> value. 
+For this release, the following values are understood.
+
+See the <<protocol-mapping, Protocol Mapping>> section for details regarding
+valid values for this attribute and on how to use HTTP and other protocols to
+compose and execute requests.
+
+[[href]]
+=== href
+The +href+ attribute holds the <<URI>> assoicated with the +<<action>>+. 
+The value of this attribute MUST be a valid <<URI>> and MUST NOT be left empty.
+
+[[prompt]]
+=== prompt
+The +prompt+ attribute holds the human-readable text associated with the +<<data>>+
+or +<<link>>+ element. The value of this attribute MUST be a valid <<TEXT>> value.
+
+[[embed]]
+=== embed
+The +embed+ attribute indicates whether the associated +<<href>>+ value
+should be treated as either a navigation (+embed="false"+) or a transclusion
+(+embed="true"+). An example of a transclusion is the +img+ tag in HTML.
+The value of this attribute  MUST NOT be left empty and MUST be a valid 
+<<BOOLEAN>> value.
+
+[[data-types]]
+== Data Types
+Below are the data types used in this media type.
+
+[[ID]]
+=== ID
+ID tokens must begin with a letter ([A-Za-z]) and may be followed by any 
+number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), 
+colons (":"), and periods (".").
+
+[[URI]]
+=== URI
+URI tokens are strings that conform to the http://tools.ietf.org/html/rfc3986[RFC3986]
+specification.
+
+[[TEXT]]
+=== TEXT
+TEXT values are meant to be "human readable" strings.
+
+[[BOOLEAN]]
+=== BOOLEAN
+BOOLEAN values MUST be either +true+ or +false+.
+
+[[protocol-mapping]]
+== Protocol Mapping
+This media type is designed to work with multiple Internet protocols. To
+accompish this goal, the media type relies on +<<template>>+ and +<<link>>+ 
+elements to define the client-server interactions. These elements each have an
++<<action>>+ attribute which indicates the type of interaction to execute.
+It is these values which can be used as a guide when selecting the protocol-level
+details needed to successfully execute the intended interaction.
+
+=== HTTP
+Below is the list of +<<action>>+ values defined in this specification along
+with information on how to use the associated +<<template>>+ and +<<link>>+
+elements of compose a valid Class Scheduling request for HTTP.
+
+[horizontal]
+add :: use the +<<data>>+ child elements to compose a POST request to the 
++<<href>>+ using the +application/x-www-form-urlencoded+ media type.
+update ::  use the +<<data>>+ child elements to compose a PUT request to the 
++<<href>>+ using the +application/x-www-form-urlencoded+ media type.
+remove :: use the +<<href>>+ to execute a DELETE request.
+read :: use the +<<href>>+ to execute a GET request.
+list :: use the +<<href>>+ to execute a GET request.
+filter :: use the +<<data>>+ child elements to compose a <<URI>> querystring
+for the +<<href>>+ and execute a GET request.
+assign ::  use the +<<data>>+ child elements to compose a POST request to the 
++<<href>>+ using the +application/x-www-form-urlencoded+ media type.
+unassign ::  use the +<<data>>+ child elements to compose a POST request to the 
++<<href>>+ using the +application/x-www-form-urlencoded+ media type.
+
+[[extensions]]
+== Extensions
+This document describes the Class Scheduleing markup vocabulary. Markup from 
+other vocabularies ("foreign markup") can be used in a Class Sheduling  
+document. Any extensions to the this vocabulary MUST NOT redefine any elements, 
+attributes, attribute values, or data types defined in this document.
+
+This design may also be extended by creating a new <<protocol-mapping, Protocol 
+Mapping>> for the existing +action+ values. Any new <<protocol-mapping, 
+Protocol Mapping>> MUST NOT redefine any existing +action+ values and SHOULD 
+NOT introduce any new +action+ values. 
+
+Clients that do not recognize extensions to this vocabulary SHOULD ignore them.
+
+[WARNING]
+It is possible that future forward-compatible modifications to this 
+specification will include new elements, attributes, attribute values, and 
+data types. Extension designers should take care to prevent future 
+modifications from breaking or redefining those extensions.
+
+[[acknowledgements]]
+== Acknowledgements
+This work was done with the support of http://layer7tech.com[Layer 7 Technologies]
+as part of a series of articles for the http://infoq.com[InfoQ] Web site.
+
+[[references]]
+== References
+The following external documents are referenced within this specification:
+
+ * http://tools.ietf.org/html/rfc2119[Key words for use in RFCs to Indicate Requirement Levels]
+ * http://tools.ietf.org/html/rfc3986[Uniform Resource Identifier (URI): Generic Syntax]
+ * http://www.w3.org/TR/xml/[Extensible Markup Language (XML) 1.0 (Fifth Edition)] 

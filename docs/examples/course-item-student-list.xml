@@ -1,0 +1,28 @@
+<!-- list and item document -->
+<root>
+  <list name="course">
+    <item name="course">
+      <display>
+        <data name="courseName" value="Hypermedia 101" />
+        <data name="courseDescription" value="Introduction to hypermedia programming." />
+      </display>
+    </item>
+  </list>
+  <list name="student">
+    <item name="student">
+      <actions>
+        <link href="/s1" name="student" action="read" prompt="Smith, Mary" />
+      </actions>
+    </item>
+    <item name="student">
+      <actions>
+        <link href="/s2" name="student" action="read" prompt="Smythe, Melvin" />
+      </actions>
+    </item>
+    <item name="student">
+      <actions>
+        <link href="/s3" name="student" action="read" prompt="Smytor, Mighty" />
+      </actions>
+    </item>
+  </list>
+</root>

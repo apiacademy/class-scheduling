@@ -1,0 +1,15 @@
+<!-- schedule action item -->
+<root>
+  <list name="course">
+    <item name="course">
+      <actions>
+        <template name="student" action="unassign" href="/k1">
+          <data name="studentId" value="q1w2e3r4" prompt="Unassign Mary" />
+        </template>
+        <link name="schedule" action="list" href="/k1" prompt="Refresh" />
+        <link name="home" action="read" href="/" prompt="Home" />
+      </actions>
+    </item>
+  </list>
+</root>
+

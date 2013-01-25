@@ -1,0 +1,12 @@
+<!-- course item -->
+<root>
+   <list name="course">
+     <item name="course">
+       <display>
+         <data name="courseName" value="Hypermedia 101" />
+         <data name="courseDescription" value="Introduction to hypermedia programming." />
+       </display>
+     </item>
+   </list>
+</root>
+

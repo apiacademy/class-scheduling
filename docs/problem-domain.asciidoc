@@ -1,0 +1,273 @@
+= Class Scheduling Problem Domain
+
+_A domain vocabulary for scheduling classes._
+
+[horizontal]
+Date :: January 2013
+Author :: http://twitter.com/mamund[Mike Amundsen], 
+Principal API Architect for http://layer7tech.com[Layer 7 Technologies]
+Status :: Version 1.0
+
+[[summary]]
+== Summary
+This document defines data elements, actions, and link identifiers for a 
+simple class scheduling domain. The material in this document is independent
+of any Web protocol (HTTP, WebSockets, etc.) and any media type (XML, JSON, 
+HTML, etc.) used to create client-server interactions.
+
+=== Initial Application
+The initial application of this problem domain is to a custom media type design
+named "Class Scheduling" with the IANA identifier of +application/vnd.apiacademy-scheduling+xml+.
+However, there may be other applications of this vocabulary in the future.
+
+=== Composing a Media-Type Example
+Creating valid client requests for this problem domain requires applying the 
+<<link-identifiers, Link Identifer>>, the <<actions, Action>> value, and the 
+<<data-elements, Data Elements>> to a specific media type.  For example, 
+below is a response representation that can be used to create a new +<<course>>+ 
+resource using the +application/vnd.apiacademy-scheduling+xml+ media type:
+
+----
+<!-- application/vnd.apiacademy-scheduling+xml example -->
+<template name="course" action="add" href="{uri}">
+   <data name="courseCapacity" value="15" />
+   <data name="courseName" value="Hypermedia 101" />
+   <data name="courseDescription" value="An introduction to hypermedia programming." />
+</template>
+----
+
+A possible HTML5 representation of the same action might look like this:
+----
+<!-- HTML5 example -->
+<form name="course" class="add" action="{uri}" method="POST">
+  <input type="text" name="courseCapacity" value="15" />
+  <input type="text" name="courseName" value="Hypermedia 101" />
+  <input type="text" name="courseDescription" value="An introduction to hypermedia programming." />
+  <input type="submit" />
+</form>
+----
+
+[NOTE]
+The rules for applying domain details may differ from one media type to the 
+next. The example given here applies to the "Class Scheduling" media type 
+intially defined for this domain.
+
+[[actions]]
+== Actions
+Below is a list of the <<actions, Actions>> for this problem domain along with 
+the <<data-elements, Data Elements>> associated with each action. Server 
+implementors can Use this as a guide when representing hypermedia transitions 
+within a target media type. Client implementors can use this as a guide when
+coding clients to recognize, parse, and execute client-server interactions.
+
+[[add]]
+=== add
+Add a new resource to the server. 
+
+.Add Actions
+[grid="rows",format="csv"]
+[options="header",cols="<,<"]
+|===========================
+LinkID,Data Elements
++<<course>>+, "+<<courseCapacity>>+, +<<courseDescription>>+, +<<courseName>>+"
++<<schedule>>+, "+<<courseId>>+, +<<scheduleSlot>>+, +<<teacherId>>+"
++<<student>>+, "+<<studentName>>+, +<<studentStanding>>+"
++<<teacher>>+, "+<<teacherName>>+"
+|===========================
+
+[[update]]
+=== update
+Update an existing resource on the server.
+
+.Update Actions
+[grid="rows",format="csv"]
+[options="header",cols="<,<"]
+|===========================
+LinkID,Data Elements
++<<course>>+, "+<<courseCapacity>>+, +<<courseDescription>>+, +<<courseName>>+"
++<<student>>+, "+<<studentName>>+, +<<studentStanding>>+"
++<<teacher>>+, "+<<teacherName>>+"
+|===========================
+
+[[remove]]
+=== remove
+Remove an existing resource from the server.
+
+.Remove Actions
+[grid="rows",format="csv"]
+[options="header",cols="<,<"]
+|===========================
+LinkID,Data Elements
++<<course>>+, NONE
++<<schedule>>+, NONE
++<<student>>+, NONE
++<<teacher>>+, NONE
+|===========================
+
+[[read]]
+=== read
+Retreive a single resource.
+
+.Read Actions
+[grid="rows",format="csv"]
+[options="header",cols="<,<"]
+|===========================
+LinkID,Data Elements
++<<course>>+, NONE
++<<home>>+, NONE
++<<schedule>>+, NONE
++<<student>>+, NONE
++<<teacher>>+, NONE
+|===========================
+
+[[list]]
+=== list
+Retrieve a list of resources.
+
+.List Actions
+[grid="rows",format="csv"]
+[options="header",cols="<,<"]
+|===========================
+LinkID,Data Elements
++<<course>>+, NONE
++<<schedule>>+, NONE
++<<student>>+, NONE
++<<teacher>>+, NONE
+|===========================
+
+[[filter]]
+=== filter
+Retrieve a filtered list of resources.
+
+.Filter Actions
+[grid="rows",format="csv"]
+[options="header",cols="<,<"]
+|===========================
+LinkID,Data Elements
++<<course>>+, +<<courseName>>+
++<<student>>+, +<<studentName>>+
++<<teacher>>+, +<<teacherName>>+
+|===========================
+
+
+[[assign]]
+=== assign
+Assign a student to an existing scheduled course.
+
+.Assign Actions
+[grid="rows",format="csv"]
+[options="header",cols="<,<"]
+|===========================
+LinkID,Data Elements
++<<schedule>>+, +<<studentId>>+
++<<student>>+, +<<scheduleId>>+
+|===========================
+
+
+[[unassign]]
+=== unassign
+Remove a student from an existing scheduled course.
+
+.Unassign Actions
+[grid="rows",format="csv"]
+[options="header",cols="<,<"]
+|===========================
+LinkID,Data Elements
++<<schedule>>+, +<<studentId>>+
++<<student>>+, +<<scheduleId>>+
+|===========================
+
+[[link-identifiers]]
+== Link Identifiers
+Below is a list of the link and template identifiers for this problem domain.
+
+[[course]]
+=== course
+Identifies links that return course information.
+
+[[home]]
+=== home
+Identifies the "home" or initial entry page of the service.
+
+[[schedule]]
+=== schedule
+Identifies links that return schedule information.
+
+[[student]]
+=== student
+Identifies links that return student information.
+
+[[teacher]]
+=== teacher
+Identifies links that return teacher information.
+
+[[data-elements]]
+== Data Elements
+Below is the list of data elements currently defined for this problem
+domain.
+
+[[courseCapacity]]
+=== courseCapacity
+Maximum number of students allowed to sign up for the course.
+
+[[courseDescription]]
+=== courseDescription
+Description of the course.
+
+[[courseId]]
+=== courseId
+System-generated unique ID for the course.
+
+[[courseName]]
+=== courseName
+Name of the course.
+
+[[scheduleId]]
+=== scheduleId
+System-generated unique ID for the schedule.
+
+[[scheduleSlot]]
+=== scheduleSlot
+Time and days of the week for the schduled course.
+
+[[studentId]]
+=== studentId
+System-generated unique ID for the student.
+
+[[studentName]]
+=== studentName
+Name of the registered student.
+
+[[studentStanding]]
+=== studentStanding
+University standing of the student (freshman, sophomore, junior, senior).
+
+[[teacherId]]
+=== teacherId
+System-generated unique ID for the teacher.
+
+[[teacherName]]
+=== teacherName
+Name of the teacher
+
+[[extensions]]
+== Extensions
+This document describes the Class Scheduling domain vocabulary. Domain details 
+from other vocabularies ("foreign domains") can be used in a Class Scheduling 
+document. Any extensions to the this vocabulary MUST not redefine any 
+actions, identifiers, or data elements defined in this document. Clients 
+that do not recognize extensions to this vocabulary SHOULD ignore them.
+
+[WARNING]
+It is possible that future forward-compatible modifications to this 
+specification will include new elements, attributes, attribute values, 
+and data types. Extension designers should take care to prevent future 
+modifications from breaking or redefining those extensions.
+
+[[acknowledgemenets]]
+== Acknowledgements
+This work was done with the support of http://layer7tech.com[Layer 7 Technologies]
+as part of a series of articles for the http://infoq.com[InfoQ] Web site.
+
+
+
