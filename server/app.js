@@ -33,7 +33,8 @@ function handler(req, res) {
 
     // set root
     root = 'http://'+req.headers.host;
-    
+    csType = testType;
+
     // parse incoming request URL
     parts = [];
     segments = req.url.split('/');
@@ -46,11 +47,13 @@ function handler(req, res) {
     // route request
     flg=false;
 
+    console.log(req.url);
+
     // home
     if(reHome.test(req.url)) {
         flg=true;
         if(req.method==='GET') {
-            rtn = 'home';
+            sendHome(req, res);
         }
         else {
             sendError(req, res, 'Method Not Allowed', 405);
@@ -77,11 +80,36 @@ function handler(req, res) {
         }
     }
     
+    if(flg===false) {
+        sendError(req, res, 'Not Found', 404);
+        rtn = null;
+    }
+
+    console.log(rtn);
+
     // compose representation
     if(rtn!==null) {
         rtn = representation(rtn,csType);
         sendResponse(req, res, rtn, code);
     }    
+}
+
+function sendHome(req, res) {
+    var rtn, doc, item;
+
+    console.log('home');
+
+    doc = {};
+    doc.links = [];
+    item = {name:'home',href:root+'/', action:'read', prompt:'Home'};
+    doc.links.push(item);
+    item = {name:'student',href:root+'/students/', action:'list', prompt:'Student List'};
+    doc.links.push(item);
+
+    console.log(JSON.stringify(doc));
+
+    rtn = representation(doc,csType);
+    sendResponse(req, res, rtn, 200);
 }
 
 function sendError(req, res, msg, code) {
