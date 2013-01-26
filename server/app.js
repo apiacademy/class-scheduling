@@ -29,33 +29,69 @@ var reFiles = new RegExp('^\/files\/.*','i');
 
 // top-level handler
 function handler(req, res) {
-    var rtn;
+    var segments, i, x, parts, rtn, flg;
+
+    // set root
+    root = 'http://'+req.headers.host;
+    
+    // parse incoming request URL
+    parts = [];
+    segments = req.url.split('/');
+    for(i=0, x=segments.length; i<x; i++) {
+        if(segments[i]!=='') {
+            parts.push(segments[i]);
+        }
+    }
 
     // route request
-    switch(req.url) {
-        // lots of checks here
-        // ...
+    flg=false;
 
-        // stub response
-        default:
-        // handle component work
-        rtn = component.students('list');
-        code = 200;
-        csType = testType;
+    // home
+    if(reHome.test(req.url)) {
+        flg=true;
+        if(req.method==='GET') {
+            rtn = 'home';
+        }
+        else {
+            sendError(req, res, 'Method Not Allowed', 405);
+        }
+    }
 
-        // compose representation
-        rtn = representation(rtn,testType);
-        
-        break;
+    if(flg===false && reStudents.test(req.url)) {
+        flg=true;
+        switch(req.method) {
+            case 'GET':
+                if(parts[1]) {
+                    rtn = component.students('read', parts[1]);
+                    code = 200;
+                    csType = testType;
+                }
+                else {
+                    rtn = component.students('list');
+                    code = 200;
+                    csType = testType;
+                }
+                break;
+            default:
+                sendError(req, res, 'Method not Allowed', 405);
+        }
     }
     
-    // return response
-    sendResponse(req, res, rtn, code);
+    // compose representation
+    if(rtn!==null) {
+        rtn = representation(rtn,csType);
+        sendResponse(req, res, rtn, code);
+    }    
+}
+
+function sendError(req, res, msg, code) {
+    sendResponse(req, res, '<error>'+msg+'</error>', code);
 }
 
 function sendResponse(req, res, body, code) {
     res.writeHead(code, {'Content-Type' : csType}),
     res.end(body);
 }
+
 http.createServer(handler).listen(port);
 

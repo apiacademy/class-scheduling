@@ -4,18 +4,132 @@
  * Mike Amundsen (@mamund)
  * ************************************/
 
+// access stored data
+var storage = require('./storage.js');
+
 exports.students = function(action, args1, args2) {
-    return 'students';
+    var object, rtn;
+    
+    object = 'student';
+    rtn = null;
+    
+    switch(action) {
+        case 'list':
+            rtn = storage(object, 'list');
+            break;
+        case 'read':
+            rtn = storage(object, 'item', args1);
+            break;
+        case 'filter':
+            rtn = storage(object, 'filter', args1);
+            break;
+        case 'add':
+            rtn = storage(object, 'add', args1);
+            break;
+        case 'update':
+            rtn = storage(object, 'update', args1, args2);
+            break;
+        case 'remove':
+            rtn = storage(object, 'remove', args1);
+            break;
+        default:
+            rtn = null;
+    }
+
+    return rtn;
 }
 
 exports.teachers = function(action, args1, args2) {
-    return 'teachers';
+    var object, rtn;
+
+    object = 'teacher';
+    rtn = null;
+
+    switch(action) {
+        case 'list':
+            rtn = storage(object, 'list');
+            break;
+        case 'read':
+            rtn = storage(object, 'item', args1);
+            break;
+        case 'filter':
+            rtn = storage(object, 'filter', args1);
+            break;
+        case 'add':
+            rtn = storage(object, 'add', args1);
+            break;
+        case 'update':
+            rtn = storage(object, 'update', args1, args2);
+            break;
+        case 'remove':
+            rtn = storage(object, 'remove', args1);
+            break;
+        default:
+            rtn = null;
+    }
+
+    return rtn;
 }
 
 exports.courses = function(action, args1, args2) {
-    return 'courses';
+    var object, rtn;
+
+    object = 'course';
+    rtn = null;
+
+    switch(action) {
+        case 'list':
+            rtn = storage(object, 'list');
+            break;
+        case 'read':
+            rtn = storage(object, 'item', args1);
+            break;
+        case 'filter':
+            rtn = storage(object, 'filter', args1);
+            break;
+        case 'add':
+            rtn = storage(object, 'add', args1);
+            break;
+        case 'update':
+            rtn = storage(object, 'update', args1, args2);
+            break;
+        case 'remove':
+            rtn = storage(object, 'remove', args1);
+            break;
+        default:
+            rtn = null;
+    }
+
+    return rtn;i
 }
 
 exports.schedules = function(action, args1, args2) {
-    return 'schedules';
+    var object, rtn;
+
+    object = 'schedule';
+    rtn = null;
+
+    switch(action) {
+        case 'list':
+            rtn = storage(object, 'list');
+            break;
+        case 'read':
+            rtn = storage(object, 'item', args1);
+            break;
+        case 'filter':
+            rtn = storage(object, 'filter', args1);
+            break;
+        case 'add':
+            rtn = storage(object, 'add', args1);
+            break;
+        case 'remove':
+            rtn = storage(object, 'remove', args1);
+            break;
+        case 'assign':
+        case 'unassign':
+        default:
+            rtn = null;
+    }
+
+    return rtn;
 }

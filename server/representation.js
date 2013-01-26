@@ -7,5 +7,5 @@
 module.exports = main;
 
 function main(object, mimeType) {
-    return '<root>'+object+'</root>';
+    return '<root>'+JSON.stringify(object, null, 4)+'</root>';
 }
