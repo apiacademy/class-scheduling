@@ -39,9 +39,9 @@ function processCSDoc(object) {
     }
 
     // handle lists
-    if(object && object.lists) {
-        for(i=0,x=object.lists.length; i<x;i++) {
-            doc += listElement(object.lists[i]);
+    if(object && object.list) {
+        for(i=0,x=object.list.length; i<x;i++) {
+            doc += listElement(object.list[i]);
         }
     }
 
@@ -69,7 +69,7 @@ function listElement(elm) {
     rtn += '>';
 
     if(elm.item) {
-        for(i=0, elm.item.length; i<x; i++) {
+        for(i=0, x=elm.item.length; i<x; i++) {
             rtn += itemElement(elm.item[i]);
         }
     }
@@ -87,12 +87,12 @@ function itemElement(elm) {
     }
     rtn += '>';
 
-    if(item.display) {
-        rtn += displayElement(item.display);
+    if(elm.display) {
+        rtn += displayElement(elm.display);
     }
 
-    if(item.actions) {
-        rtn += actionElement(item.action);
+    if(elm.actions) {
+        rtn += actionElement(elm.action);
     }
     rtn += '</item>';
 
@@ -103,6 +103,7 @@ function displayElement(elm) {
     var i, x, rtn;
 
     rtn = '<display>';
+
     if(elm.data) {
         for(i=0,x=elm.data.length; i<x; i++) {
             rtn += dataElement(elm.data[i]);
@@ -180,7 +181,7 @@ function dataElement(elm) {
     if(elm.name) {
         rtn += 'name="'+elm.name+'" ';
     }
-    if(elmprompt) {
+    if(elm.prompt) {
         rtn += 'prompt="'+elm.prompt+'" ';
     }
     if(elm.value) {

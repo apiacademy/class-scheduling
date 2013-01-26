@@ -47,8 +47,6 @@ function handler(req, res) {
     // route request
     flg=false;
 
-    console.log(req.url);
-
     // home
     if(reHome.test(req.url)) {
         flg=true;
@@ -71,6 +69,13 @@ function handler(req, res) {
                 }
                 else {
                     rtn = component.students('list');
+
+                    doc = {};
+                    doc.links = sharedLinks();
+                    doc.list = [];
+                    doc.list.push(rtn);
+                    rtn = doc;
+
                     code = 200;
                     csType = testType;
                 }
@@ -85,28 +90,35 @@ function handler(req, res) {
         rtn = null;
     }
 
-    console.log(rtn);
-
-    // compose representation
     if(rtn!==null) {
         rtn = representation(rtn,csType);
         sendResponse(req, res, rtn, code);
     }    
 }
 
+function sharedLinks() {
+    var links, item;
+
+    links = [];
+    item = {name:'home',href:root+'/', action:'read', prompt:'Home'};
+    links.push(item);
+    item = {name:'student',href:root+'/students/', action:'list', prompt:'Students'};
+    links.push(item);
+    item = {name:'teacher',href:root+'/teachers/', action:'list', prompt:'Teachers'};
+    links.push(item);
+    item = {name:'course',href:root+'/courses/', action:'list', prompt:'Courses'};
+    links.push(item);
+    item = {name:'schedule',href:root+'/schedules/', action:'list', prompt:'Schedules'};
+    links.push(item);
+
+    return links;
+}
+
 function sendHome(req, res) {
     var rtn, doc, item;
 
-    console.log('home');
-
     doc = {};
-    doc.links = [];
-    item = {name:'home',href:root+'/', action:'read', prompt:'Home'};
-    doc.links.push(item);
-    item = {name:'student',href:root+'/students/', action:'list', prompt:'Student List'};
-    doc.links.push(item);
-
-    console.log(JSON.stringify(doc));
+    doc.links = sharedLinks();
 
     rtn = representation(doc,csType);
     sendResponse(req, res, rtn, 200);

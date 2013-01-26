@@ -16,6 +16,7 @@ exports.students = function(action, args1, args2) {
     switch(action) {
         case 'list':
             rtn = storage(object, 'list');
+            rtn = loadList(rtn, object);
             break;
         case 'read':
             rtn = storage(object, 'item', args1);
@@ -100,7 +101,7 @@ exports.courses = function(action, args1, args2) {
             rtn = null;
     }
 
-    return rtn;i
+    return rtn;
 }
 
 exports.schedules = function(action, args1, args2) {
@@ -111,7 +112,7 @@ exports.schedules = function(action, args1, args2) {
 
     switch(action) {
         case 'list':
-            rtn = storage(object, 'list');
+            rtn = dataElements(storage(object, 'list'), object);
             break;
         case 'read':
             rtn = storage(object, 'item', args1);
@@ -132,4 +133,31 @@ exports.schedules = function(action, args1, args2) {
     }
 
     return rtn;
+}
+
+function loadList(coll, name) {
+    var data, item, i, x;
+
+    
+    item = [];
+    data = [];
+    for(i=0, x=coll.length; i<x; i++) {
+        for(prop in coll[i]) {
+            d = {};
+            d.name = prop;
+            d.value = coll[i][prop];
+            d.prompt = prop;
+            data.push(d);
+        }
+        item[i] = {};
+        item[i].display = {};
+        item[i].display.data = data;
+        data = [];
+    }
+
+    list = {};
+    list.name = name;
+    list.item = item;
+
+    return list;
 }
