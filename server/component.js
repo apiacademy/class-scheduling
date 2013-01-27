@@ -7,37 +7,6 @@
 // access stored data
 var storage = require('./storage.js');
 
-// *** notes on internal object model
-//
-// ** Collections/Compound Objects
-// * Lists
-// list[]
-// list[].item[].display.data[]
-// list[].item[].actions.template[]
-// list[].item[].actions.links[]
-//
-// * links
-// link[]
-//
-// * templates
-// template[]
-// template[].data[]
-//
-// * error
-// error{}
-// error.data[]
-//
-// ** Base-Level Objects
-// * link
-// {name, href, action, prompt}
-//
-// * data
-// {name, value, prompt, embed}
-//
-// * template
-// {name, href, action}
-// *************************************
-
 exports.students = function(action, args1, args2, args3) {
     var object, rtn;
     

@@ -69,7 +69,7 @@ function handler(req, res) {
                     rtn.action.template = listTemplates('student',root);
 
                     doc = {action:{link:[]}};
-                    doc.action.link = pageLinks();
+                    doc.action.link = pageLinks(root);
                     
                     doc.list = [];
                     doc.list.push(rtn);
@@ -84,7 +84,7 @@ function handler(req, res) {
                     rtn.action.template = listTemplates('student',root);
 
                     doc = {action:{link:[]}};
-                    doc.action.link = pageLinks();
+                    doc.action.link = pageLinks(root);
 
                     doc.list = [];
                     doc.list.push(rtn);
