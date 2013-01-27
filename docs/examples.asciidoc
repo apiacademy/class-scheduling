@@ -10,6 +10,10 @@ Principal API Architect for http://layer7tech.com[Layer 7 Technologies]
 Status :: Version 1.0
 
 == Summary
+The document contains a number of example documents using the Class-Scheduling
+media type (+application/vnd.apiacademy-scheduling+xml+) and the values established
+in the Class Scheduling Problem Domain document. Client and server developers
+can use this document as a guide when implementing solutions for this domain.
 
 [NOTE]
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", 
@@ -22,7 +26,7 @@ Class Schedule documents have a very simple (top-level) layout:
 
 ----
 <root>
-   <links />
+   <actions />
    <list />
    <error />
 </root>

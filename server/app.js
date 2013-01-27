@@ -184,7 +184,7 @@ function sendHome(req, res) {
 
     doc = {};
     doc.action = {};
-    doc.action.link = pageTemplates();
+    doc.action.link = pageLinks();
 
     rtn = representation(doc,csType);
     sendResponse(req, res, rtn, 200);

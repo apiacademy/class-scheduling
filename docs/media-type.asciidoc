@@ -16,8 +16,9 @@ hypermedia-style API. This design is extremely limited and is offered as a
 sample, not a production-level specification.
 
 === Layout
-This media type defines three primary elements (+<<links>>+, +<<list>>+, and
-+<<error>>+). Each +<<list>>+ element can have one or more +<<item>>+ elements.
+This media type defines three primary elements (+<<actions>>+, +<<list>>+, and
++<<error>>+). Each +<<list>>+ element can have one +<<actions>>+ element and 
+one or more +<<item>>+ elements.
 Each +<<item>>+ element can have one +<<display>>+ element and one +<<actions>>+
 element. The +<<display>>+ element can have one or more +<<data>>+ elements 
 (client may choose to render these for humans). The +<<actions>>+ element
@@ -54,12 +55,25 @@ every valid Class Scheduling document is also a well-formed XML document.
 ----
 <root>
   
-  <links>
+  <actions>
     <link href="..." name="..." action="..." prompt="..." />
     <!-- additional link elements -->
+    <template name="..." action="..." href="..." prompt="...">
+      <data name="..." value="..." prompt="..." /> 
+    </template>
+    <!-- additional template elements -->
   </links>
   
   <list name="...">
+     <actions>
+      <template name="... action="... href="..." prompt="...">
+        <data name="..." value="..." prompt="..." />
+        <!-- additional data elements -->
+      </template>
+      <!-- additional template elements -->
+      <link name="..." action="..." href="..." prompt="..." />
+      <!-- additional link elements -->
+    </actions>
     <item name="...">
       <display>
         <data name="..." value="..." prompt="..." embed="true|false" />
@@ -67,7 +81,7 @@ every valid Class Scheduling document is also a well-formed XML document.
       </display>
   
       <actions>
-        <template name="... action="... href="...">
+        <template name="... action="... href="..." prompt="...">
           <data name="..." value="..." prompt="..." />
           <!-- additional data elements -->
         </template>
@@ -101,33 +115,18 @@ It MUST appear only once in a document.
 
 ----
 <root>
-   <links />
+   <actions />
    <list />
    <error />
 </root>
-----
-
-[[links]]
-=== links
-The +links+ element defines a list of client-sever interactions. It SHOULD
-have one or more +<<link>>+ child elements. It is an OPTIONAL element. It 
-MUST appear as a child of the +<<root>>+ element. It MUST appear only once 
-in a document.
-
-----
-<links>
-  <link />
-  ...
-</links>
 ----
 
 [[link]]
 === link
 The +link+ element defines a client-server interaction. It MUST have
 +<<href>>+ and +<<action>>+ attributes. It MAY have +<<name>>+ and +<<prompt>>+
-attributes. This elements MAY appear as a child element of the +<<links>>+ 
-element and the +<<actions>>+ element. It is an OPTIONAL element. It MAY appear
-multiple times in a document.
+attributes. This elements MAY appear as a child element of the +<<actions>>+ element. 
+It is an OPTIONAL element. It MAY appear multiple times in a document.
 
 ----
 <link href="..." name="..." action="..." prompt="..." />
@@ -166,7 +165,7 @@ in a +<<list>>+ element.
 === display
 The +display+ element defines a set of display values for an +<<item>>+. This
 element SHOULD have one or more +<<data>>+ child elements. It is an OPTIONAL
-element. It MUST appear as a child element of the +<<item>>+ element. This
+element. It MAY appear as a child element of the +<<item>>+ element. This
 element MUST appear no more than once in an +<<item>>+ element.
 
 ----
@@ -192,8 +191,9 @@ MAY occur multiple times.
 === actions
 The +actions+ element contains a list of possible client-server interactions.
 It SHOULD have one or more +<<template>>+ and/or +<<link>>+ child elements.
-This is an OPTIONAL element. The +actions+ element MUST appear only once as a 
-child of the  +<<item>>+ element. 
+This is an OPTIONAL element. The +actions+ element MAY appear as a 
+child of the +<<root>>+, +<<list>>+, or  +<<item>>+ element. If it does appear
+as a child element, it MUST appear only once in that element.
 
 ----
 <actions>
@@ -209,8 +209,8 @@ child of the  +<<item>>+ element.
 The +template+ element is used to define a client-server interaction. This
 elemust MUST have +<<href>>+ and +<<action>>+ attributes and MAY have
 a +<<name>>+ attribute. It MAY have one or more +<<data>>+ child elements.
-This is an OPTIONAL element. The +template+ element MUST appear as a child 
-of the +<<actions>>+ element. It may occur multiple times.
+This is an OPTIONAL element. The +template+ element MAY appear as a child 
+of the +<<actions>>+ element. It can occur multiple times.
 
 ----
 <template href="..." name="..." action="...">
@@ -222,7 +222,7 @@ of the +<<actions>>+ element. It may occur multiple times.
 === error
 The +error+ element is used to indicate any details regarding an error that
 occurred in the last request. It SHOULD have one or more +<<data>>+ child 
-elements. This is an OPTIONAL element. The +error+ element MUST appear as a 
+elements. This is an OPTIONAL element. The +error+ element MAY appear as a 
 child of the +<<root>>+ element. It MUST appear only once in a document.
 
 ----
@@ -266,8 +266,9 @@ The value of this attribute MUST be a valid <<URI>> and MUST NOT be left empty.
 
 [[prompt]]
 === prompt
-The +prompt+ attribute holds the human-readable text associated with the +<<data>>+
-or +<<link>>+ element. The value of this attribute MUST be a valid <<TEXT>> value.
+The +prompt+ attribute holds the human-readable text associated with the 
++<<data>>+, +<<link>>+ or +<<template>>+ elements. The value of this attribute 
+MUST be a valid <<TEXT>> value.
 
 [[embed]]
 === embed

@@ -620,8 +620,9 @@ hypermedia-style API. This design is extremely limited and is offered as a
 sample, not a production-level specification.</p></div>
 <div class="sect2">
 <h3 id="_layout">Layout</h3>
-<div class="paragraph"><p>This media type defines three primary elements (<tt><a href="#links">[links]</a></tt>, <tt><a href="#list">[list]</a></tt>, and
-<tt><a href="#error">[error]</a></tt>). Each <tt><a href="#list">[list]</a></tt> element can have one or more <tt><a href="#item">[item]</a></tt> elements.
+<div class="paragraph"><p>This media type defines three primary elements (<tt><a href="#actions">[actions]</a></tt>, <tt><a href="#list">[list]</a></tt>, and
+<tt><a href="#error">[error]</a></tt>). Each <tt><a href="#list">[list]</a></tt> element can have one <tt><a href="#actions">[actions]</a></tt> element and
+one or more <tt><a href="#item">[item]</a></tt> elements.
 Each <tt><a href="#item">[item]</a></tt> element can have one <tt><a href="#display">[display]</a></tt> element and one <tt><a href="#actions">[actions]</a></tt>
 element. The <tt><a href="#display">[display]</a></tt> element can have one or more <tt><a href="#data">[data]</a></tt> elements
 (client may choose to render these for humans). The <tt><a href="#actions">[actions]</a></tt> element
@@ -671,12 +672,25 @@ every valid Class Scheduling document is also a well-formed XML document.</td>
 <div class="content">
 <pre><tt>&lt;root&gt;
 
-  &lt;links&gt;
+  &lt;actions&gt;
     &lt;link href="..." name="..." action="..." prompt="..." /&gt;
     &lt;!-- additional link elements --&gt;
+    &lt;template name="..." action="..." href="..." prompt="..."&gt;
+      &lt;data name="..." value="..." prompt="..." /&gt;
+    &lt;/template&gt;
+    &lt;!-- additional template elements --&gt;
   &lt;/links&gt;
 
   &lt;list name="..."&gt;
+     &lt;actions&gt;
+      &lt;template name="... action="... href="..." prompt="..."&gt;
+        &lt;data name="..." value="..." prompt="..." /&gt;
+        &lt;!-- additional data elements --&gt;
+      &lt;/template&gt;
+      &lt;!-- additional template elements --&gt;
+      &lt;link name="..." action="..." href="..." prompt="..." /&gt;
+      &lt;!-- additional link elements --&gt;
+    &lt;/actions&gt;
     &lt;item name="..."&gt;
       &lt;display&gt;
         &lt;data name="..." value="..." prompt="..." embed="true|false" /&gt;
@@ -684,7 +698,7 @@ every valid Class Scheduling document is also a well-formed XML document.</td>
       &lt;/display&gt;
 
       &lt;actions&gt;
-        &lt;template name="... action="... href="..."&gt;
+        &lt;template name="... action="... href="..." prompt="..."&gt;
           &lt;data name="..." value="..." prompt="..." /&gt;
           &lt;!-- additional data elements --&gt;
         &lt;/template&gt;
@@ -719,33 +733,18 @@ It MUST appear only once in a document.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>&lt;root&gt;
-   &lt;links /&gt;
+   &lt;actions /&gt;
    &lt;list /&gt;
    &lt;error /&gt;
 &lt;/root&gt;</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="links">links</h3>
-<div class="paragraph"><p>The <tt>links</tt> element defines a list of client-sever interactions. It SHOULD
-have one or more <tt><a href="#link">[link]</a></tt> child elements. It is an OPTIONAL element. It
-MUST appear as a child of the <tt><a href="#root">[root]</a></tt> element. It MUST appear only once
-in a document.</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>&lt;links&gt;
-  &lt;link /&gt;
-  ...
-&lt;/links&gt;</tt></pre>
-</div></div>
-</div>
-<div class="sect2">
 <h3 id="link">link</h3>
 <div class="paragraph"><p>The <tt>link</tt> element defines a client-server interaction. It MUST have
 <tt><a href="#href">[href]</a></tt> and <tt><a href="#action">[action]</a></tt> attributes. It MAY have <tt><a href="#name">[name]</a></tt> and <tt><a href="#prompt">[prompt]</a></tt>
-attributes. This elements MAY appear as a child element of the <tt><a href="#links">[links]</a></tt>
-element and the <tt><a href="#actions">[actions]</a></tt> element. It is an OPTIONAL element. It MAY appear
-multiple times in a document.</p></div>
+attributes. This elements MAY appear as a child element of the <tt><a href="#actions">[actions]</a></tt> element.
+It is an OPTIONAL element. It MAY appear multiple times in a document.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>&lt;link href="..." name="..." action="..." prompt="..." /&gt;</tt></pre>
@@ -784,7 +783,7 @@ in a <tt><a href="#list">[list]</a></tt> element.</p></div>
 <h3 id="display">display</h3>
 <div class="paragraph"><p>The <tt>display</tt> element defines a set of display values for an <tt><a href="#item">[item]</a></tt>. This
 element SHOULD have one or more <tt><a href="#data">[data]</a></tt> child elements. It is an OPTIONAL
-element. It MUST appear as a child element of the <tt><a href="#item">[item]</a></tt> element. This
+element. It MAY appear as a child element of the <tt><a href="#item">[item]</a></tt> element. This
 element MUST appear no more than once in an <tt><a href="#item">[item]</a></tt> element.</p></div>
 <div class="listingblock">
 <div class="content">
@@ -810,8 +809,9 @@ MAY occur multiple times.</p></div>
 <h3 id="actions">actions</h3>
 <div class="paragraph"><p>The <tt>actions</tt> element contains a list of possible client-server interactions.
 It SHOULD have one or more <tt><a href="#template">[template]</a></tt> and/or <tt><a href="#link">[link]</a></tt> child elements.
-This is an OPTIONAL element. The <tt>actions</tt> element MUST appear only once as a
-child of the  <tt><a href="#item">[item]</a></tt> element.</p></div>
+This is an OPTIONAL element. The <tt>actions</tt> element MAY appear as a
+child of the <tt><a href="#root">[root]</a></tt>, <tt><a href="#list">[list]</a></tt>, or  <tt><a href="#item">[item]</a></tt> element. If it does appear
+as a child element, it MUST appear only once in that element.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>&lt;actions&gt;
@@ -827,8 +827,8 @@ child of the  <tt><a href="#item">[item]</a></tt> element.</p></div>
 <div class="paragraph"><p>The <tt>template</tt> element is used to define a client-server interaction. This
 elemust MUST have <tt><a href="#href">[href]</a></tt> and <tt><a href="#action">[action]</a></tt> attributes and MAY have
 a <tt><a href="#name">[name]</a></tt> attribute. It MAY have one or more <tt><a href="#data">[data]</a></tt> child elements.
-This is an OPTIONAL element. The <tt>template</tt> element MUST appear as a child
-of the <tt><a href="#actions">[actions]</a></tt> element. It may occur multiple times.</p></div>
+This is an OPTIONAL element. The <tt>template</tt> element MAY appear as a child
+of the <tt><a href="#actions">[actions]</a></tt> element. It can occur multiple times.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>&lt;template href="..." name="..." action="..."&gt;
@@ -840,7 +840,7 @@ of the <tt><a href="#actions">[actions]</a></tt> element. It may occur multiple 
 <h3 id="error">error</h3>
 <div class="paragraph"><p>The <tt>error</tt> element is used to indicate any details regarding an error that
 occurred in the last request. It SHOULD have one or more <tt><a href="#data">[data]</a></tt> child
-elements. This is an OPTIONAL element. The <tt>error</tt> element MUST appear as a
+elements. This is an OPTIONAL element. The <tt>error</tt> element MAY appear as a
 child of the <tt><a href="#root">[root]</a></tt> element. It MUST appear only once in a document.</p></div>
 <div class="listingblock">
 <div class="content">
@@ -884,8 +884,9 @@ The value of this attribute MUST be a valid <a href="#URI">[URI]</a> and MUST NO
 </div>
 <div class="sect2">
 <h3 id="prompt">prompt</h3>
-<div class="paragraph"><p>The <tt>prompt</tt> attribute holds the human-readable text associated with the <tt><a href="#data">[data]</a></tt>
-or <tt><a href="#link">[link]</a></tt> element. The value of this attribute MUST be a valid <a href="#TEXT">[TEXT]</a> value.</p></div>
+<div class="paragraph"><p>The <tt>prompt</tt> attribute holds the human-readable text associated with the
+<tt><a href="#data">[data]</a></tt>, <tt><a href="#link">[link]</a></tt> or <tt><a href="#template">[template]</a></tt> elements. The value of this attribute
+MUST be a valid <a href="#TEXT">[TEXT]</a> value.</p></div>
 </div>
 <div class="sect2">
 <h3 id="embed">embed</h3>
@@ -1091,7 +1092,7 @@ as part of a series of articles for the <a href="http://infoq.com">InfoQ</a> Web
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-01-23 20:23:26 EST
+Last updated 2013-01-27 10:13:09 EST
 </div>
 </div>
 </body>
