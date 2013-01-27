@@ -63,13 +63,14 @@ function handler(req, res) {
         switch(req.method) {
             case 'GET':
                 if(parts[1]) {
-                    rtn = component.students('read', parts[1]);
 
-                    doc = {};
-                    doc.action = {};
-                    doc.action.links = pageLinks();
+                    rtn = component.students('read', parts[1], root);
                     rtn.action = {};
-                    rtn.action.template = listTemplates('student');
+                    rtn.action.template = listTemplates('student',root);
+
+                    doc = {action:{link:[]}};
+                    doc.action.link = pageLinks();
+                    
                     doc.list = [];
                     doc.list.push(rtn);
                     rtn = doc;
@@ -78,13 +79,13 @@ function handler(req, res) {
                     csType = testType;
                 }
                 else {
-                    rtn = component.students('list');
-
-                    doc = {};
-                    doc.action = {};
-                    doc.action.link = pageLinks();
+                    rtn = component.students('list', root);
                     rtn.action = {};
-                    rtn.action.template = listTemplates('student');
+                    rtn.action.template = listTemplates('student',root);
+
+                    doc = {action:{link:[]}};
+                    doc.action.link = pageLinks();
+
                     doc.list = [];
                     doc.list.push(rtn);
                     rtn = doc;
@@ -109,7 +110,7 @@ function handler(req, res) {
     }    
 }
 
-function pageLinks() {
+function pageLinks(root) {
     var links, item;
 
     links = [];
@@ -127,15 +128,15 @@ function pageLinks() {
     return links;
 }
 
-function listTemplates(name) {
+function listTemplates(name, root) {
     var template, tmp;
 
     template = [];
-    tmp = {name:name, href:'/'+name+'/', action:'add', prompt:'Add '+name};
+    tmp = {name:name, href:root+'/'+name+'/', action:'add', prompt:'Add '+name};
     tmp.data = addElements(name);
     template.push(tmp);
     
-    tmp = {name:name, href:'/'+name+'/', action:'filter', prompt:'Filter '+name};
+    tmp = {name:name, href:root+'/'+name+'/', action:'filter', prompt:'Filter '+name};
     tmp.data = filterElements(name);
     template.push(tmp);
 
@@ -182,16 +183,22 @@ function filterElements(name) {
 function sendHome(req, res) {
     var rtn, doc, item;
 
-    doc = {};
-    doc.action = {};
-    doc.action.link = pageLinks();
+    doc = {action:{link:[]}};
+    doc.action.link = pageLinks(root);
 
     rtn = representation(doc,csType);
     sendResponse(req, res, rtn, 200);
 }
 
 function sendError(req, res, msg, code) {
-    sendResponse(req, res, '<error>'+msg+'</error>', code);
+    var doc, rtn;
+
+    doc = {error:{data:[]}};
+    doc.error.data.push({name:'message', value:msg, prompt:'Message'});
+    doc.error.data.push({name:'url', value:root+req.url, prompt:'URL'});
+
+    rtn = representation(doc, csType);
+    sendResponse(req, res, rtn, code);
 }
 
 function sendResponse(req, res, body, code) {

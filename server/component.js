@@ -38,7 +38,7 @@ var storage = require('./storage.js');
 // {name, href, action}
 // *************************************
 
-exports.students = function(action, args1, args2) {
+exports.students = function(action, args1, args2, args3) {
     var object, rtn;
     
     object = 'student';
@@ -47,27 +47,27 @@ exports.students = function(action, args1, args2) {
     switch(action) {
         case 'list':
             rtn = loadList(storage(object, 'list'), object);
-            rtn = addEditing(rtn, object);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'read':
             rtn = loadList(storage(object, 'item', args1), object);
-            rtn = addEditing(rtn, object);
+            rtn = addEditing(rtn, object, args2);
             break;
         case 'filter':
             rtn = loadList(storage(object, 'filter', args1), object);
-            rtn = addEditing(rtn, object);
+            rtn = addEditing(rtn, object, args2);
             break;
         case 'add':
             rtn = loadList(storage(object, 'add', args1), object);
-            rtn = addEditing(rtn, object);
+            rtn = addEditing(rtn, object, args2);
             break;
         case 'update':
             rtn = loadList(storage(object, 'update', args1, args2), object);
-            rtn = addEditing(rtn, object);
+            rtn = addEditing(rtn, object, args3);
             break;
         case 'remove':
             rtn = loadList(storage(object, 'remove', args1), object);
-            rtn = addEditing(rtn, object);
+            rtn = addEditing(rtn, object, args2);
             break;
         default:
             rtn = null;
@@ -206,7 +206,7 @@ function loadList(elm, name) {
     return list;
 }
 
-function addEditing(elm, object) {
+function addEditing(elm, object, root) {
     var coll, i, x, id;
 
     if(elm.item) {
@@ -227,7 +227,7 @@ function addEditing(elm, object) {
             id = getId(coll[i].display.data);
 
             // templates
-            tmp = {name:object, action:'update', href:'/'+object+'/'+id}
+            tmp = {name:object, action:'update', href:root+'/'+object+'/'+id}
             tmp.data = [];
 
             for(j=0, y=coll[i].display.data.length; j<y; j++) {
@@ -238,10 +238,10 @@ function addEditing(elm, object) {
             coll[i].action.template.push(tmp);
 
             // links
-            tmp = {name:object, action:'remove', href:'/'+object+'/'+id, prompt:'Remove'}
+            tmp = {name:object, action:'remove', href:root+'/'+object+'/'+id, prompt:'Remove'}
             coll[i].action.link.push(tmp);
 
-            tmp = {name:object, action:'read', href:'/'+object+'/'+id, prompt:'Read'};
+            tmp = {name:object, action:'read', href:root+'/'+object+'/'+id, prompt:'Read'};
             coll[i].action.link.push(tmp);
 
             tmp = {}
