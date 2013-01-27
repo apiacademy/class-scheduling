@@ -7,6 +7,37 @@
 // access stored data
 var storage = require('./storage.js');
 
+// *** notes on internal object model
+//
+// ** Collections/Compound Objects
+// * Lists
+// list[]
+// list[].item[].display.data[]
+// list[].item[].actions.template[]
+// list[].item[].actions.links[]
+//
+// * links
+// link[]
+//
+// * templates
+// template[]
+// template[].data[]
+//
+// * error
+// error{}
+// error.data[]
+//
+// ** Base-Level Objects
+// * link
+// {name, href, action, prompt}
+//
+// * data
+// {name, value, prompt, embed}
+//
+// * template
+// {name, href, action}
+// *************************************
+
 exports.students = function(action, args1, args2) {
     var object, rtn;
     
@@ -15,23 +46,28 @@ exports.students = function(action, args1, args2) {
     
     switch(action) {
         case 'list':
-            rtn = storage(object, 'list');
-            rtn = loadList(rtn, object);
+            rtn = loadList(storage(object, 'list'), object);
+            rtn = addEditing(rtn, object);
             break;
         case 'read':
-            rtn = storage(object, 'item', args1);
+            rtn = loadList(storage(object, 'item', args1), object);
+            rtn = addEditing(rtn, object);
             break;
         case 'filter':
-            rtn = storage(object, 'filter', args1);
+            rtn = loadList(storage(object, 'filter', args1), object);
+            rtn = addEditing(rtn, object);
             break;
         case 'add':
-            rtn = storage(object, 'add', args1);
+            rtn = loadList(storage(object, 'add', args1), object);
+            rtn = addEditing(rtn, object);
             break;
         case 'update':
-            rtn = storage(object, 'update', args1, args2);
+            rtn = loadList(storage(object, 'update', args1, args2), object);
+            rtn = addEditing(rtn, object);
             break;
         case 'remove':
-            rtn = storage(object, 'remove', args1);
+            rtn = loadList(storage(object, 'remove', args1), object);
+            rtn = addEditing(rtn, object);
             break;
         default:
             rtn = null;
@@ -135,10 +171,17 @@ exports.schedules = function(action, args1, args2) {
     return rtn;
 }
 
-function loadList(coll, name) {
-    var data, item, i, x;
+function loadList(elm, name) {
+    var coll, list, data, item, i, x;
 
-    
+    if(Array.isArray(elm)===false) {
+        coll = [];
+        coll.push(elm);
+    }
+    else {
+        coll = elm;
+    }
+
     item = [];
     data = [];
     for(i=0, x=coll.length; i<x; i++) {
@@ -150,6 +193,7 @@ function loadList(coll, name) {
             data.push(d);
         }
         item[i] = {};
+        item[i].name = name;
         item[i].display = {};
         item[i].display.data = data;
         data = [];
@@ -160,4 +204,61 @@ function loadList(coll, name) {
     list.item = item;
 
     return list;
+}
+
+function addEditing(elm, object) {
+    var coll, i, x, id;
+
+    if(elm.item) {
+        coll = elm.item;
+
+        // handle templates
+        for(i=0, x=coll.length; i<x; i++) {
+            if(!coll[i].action) {
+                coll[i].action = {};
+            }
+            if(!coll[i].action.template) {
+                coll[i].action.template = [];
+            }
+            if(!coll[i].action.link) {
+                coll[i].action.link = [];
+            }
+            
+            id = getId(coll[i].display.data);
+
+            // templates
+            tmp = {name:object, action:'update', href:'/'+object+'/'+id}
+            tmp.data = [];
+
+            for(j=0, y=coll[i].display.data.length; j<y; j++) {
+                if('id dateCreated'.indexOf(coll[i].display.data[j].name)===-1) {
+                    tmp.data.push(coll[i].display.data[j]);
+                }
+            }
+            coll[i].action.template.push(tmp);
+
+            // links
+            tmp = {name:object, action:'remove', href:'/'+object+'/'+id, prompt:'Remove'}
+            coll[i].action.link.push(tmp);
+
+            tmp = {name:object, action:'read', href:'/'+object+'/'+id, prompt:'Read'};
+            coll[i].action.link.push(tmp);
+
+            tmp = {}
+        }
+        elm.item = coll;
+    }
+    return elm;
+}
+
+function getId(data) {
+    var i, x, rtn;
+
+    for(i=0, x=data.length; i<x; i++) {
+        if(data[i].name==='id') {
+            rtn = data[i].value;
+            break;
+        }
+    }
+    return rtn;
 }

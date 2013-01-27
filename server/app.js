@@ -21,11 +21,11 @@ var representation = require('./representation.js');
 
 // routing
 var reHome = new RegExp('^\/$','i');
-var reStudents = new RegExp('^\/students\/.*','i');
-var reTeachers = new RegExp('^\/teachers\/.*','i');
-var reCourses = new RegExp('^\/courses\/.*','i');
-var reSchedules = new RegExp('^\/schedules\/.*','i');
-var reFiles = new RegExp('^\/files\/.*','i');
+var reStudents = new RegExp('^\/student\/.*','i');
+var reTeachers = new RegExp('^\/teacher\/.*','i');
+var reCourses = new RegExp('^\/course\/.*','i');
+var reSchedules = new RegExp('^\/schedule\/.*','i');
+var reFiles = new RegExp('^\/file\/.*','i');
 
 // top-level handler
 function handler(req, res) {
@@ -64,6 +64,16 @@ function handler(req, res) {
             case 'GET':
                 if(parts[1]) {
                     rtn = component.students('read', parts[1]);
+
+                    doc = {};
+                    doc.action = {};
+                    doc.action.links = pageLinks();
+                    rtn.action = {};
+                    rtn.action.template = listTemplates('student');
+                    doc.list = [];
+                    doc.list.push(rtn);
+                    rtn = doc;
+
                     code = 200;
                     csType = testType;
                 }
@@ -71,7 +81,10 @@ function handler(req, res) {
                     rtn = component.students('list');
 
                     doc = {};
-                    doc.links = sharedLinks();
+                    doc.action = {};
+                    doc.action.link = pageLinks();
+                    rtn.action = {};
+                    rtn.action.template = listTemplates('student');
                     doc.list = [];
                     doc.list.push(rtn);
                     rtn = doc;
@@ -96,29 +109,82 @@ function handler(req, res) {
     }    
 }
 
-function sharedLinks() {
+function pageLinks() {
     var links, item;
 
     links = [];
     item = {name:'home',href:root+'/', action:'read', prompt:'Home'};
     links.push(item);
-    item = {name:'student',href:root+'/students/', action:'list', prompt:'Students'};
+    item = {name:'student',href:root+'/student/', action:'list', prompt:'Students'};
     links.push(item);
-    item = {name:'teacher',href:root+'/teachers/', action:'list', prompt:'Teachers'};
+    item = {name:'teacher',href:root+'/teacher/', action:'list', prompt:'Teachers'};
     links.push(item);
-    item = {name:'course',href:root+'/courses/', action:'list', prompt:'Courses'};
+    item = {name:'course',href:root+'/course/', action:'list', prompt:'Courses'};
     links.push(item);
-    item = {name:'schedule',href:root+'/schedules/', action:'list', prompt:'Schedules'};
+    item = {name:'schedule',href:root+'/schedule/', action:'list', prompt:'Schedules'};
     links.push(item);
 
     return links;
+}
+
+function listTemplates(name) {
+    var template, tmp;
+
+    template = [];
+    tmp = {name:name, href:'/'+name+'/', action:'add', prompt:'Add '+name};
+    tmp.data = addElements(name);
+    template.push(tmp);
+    
+    tmp = {name:name, href:'/'+name+'/', action:'filter', prompt:'Filter '+name};
+    tmp.data = filterElements(name);
+    template.push(tmp);
+
+    return template;
+}
+
+function addElements(name) {
+    var data;
+
+    data = [];
+    switch(name) {
+        case 'student':
+            data.push({name:'studentName',value:'',prompt:'studentName'});
+            data.push({name:'standing', value:'', prompt:'standing'});
+            break;
+        case 'course' :
+        case 'teacher' :
+        case 'schedule' :
+        default:
+            break;
+    }
+
+    return data;
+}
+
+function filterElements(name) {
+    var data;
+
+    data = [];
+    switch(name) {
+        case 'student':
+            data.push({name:'studentName',value:'', prompt:'studentName'});
+            break;
+        case 'course':
+        case 'teacher':
+        case 'schedule':
+        default:
+            break;
+    }
+
+    return data;
 }
 
 function sendHome(req, res) {
     var rtn, doc, item;
 
     doc = {};
-    doc.links = sharedLinks();
+    doc.action = {};
+    doc.action.link = pageTemplates();
 
     rtn = representation(doc,csType);
     sendResponse(req, res, rtn, 200);

@@ -28,6 +28,11 @@ function processCSDoc(object) {
 
     doc = '<root>';
 
+    // handle action element
+    if(object && object.action) {
+        doc += actionElement(object.action);
+    }
+
     // handle link collection
     if(object && object.links) {
         doc += '<links>';
@@ -68,7 +73,11 @@ function listElement(elm) {
     }
     rtn += '>';
 
-    if(elm.item) {
+    if(elm.action) {
+        rtn += actionElement(elm.action);
+    }
+
+    if(elm.item) { 
         for(i=0, x=elm.item.length; i<x; i++) {
             rtn += itemElement(elm.item[i]);
         }
@@ -83,7 +92,7 @@ function itemElement(elm) {
 
     rtn = '<item ';
     if(elm.name) {
-        rnt += 'name="'+elm.name+'" ';
+        rtn += 'name="'+elm.name+'" ';
     }
     rtn += '>';
 
@@ -91,7 +100,7 @@ function itemElement(elm) {
         rtn += displayElement(elm.display);
     }
 
-    if(elm.actions) {
+    if(elm.action) {
         rtn += actionElement(elm.action);
     }
     rtn += '</item>';
@@ -119,15 +128,15 @@ function actionElement(elm) {
 
     rtn = '<actions>';
 
-    if(elm.templates) {
-        for(i=0, x=elm.templates.length; i<x; i++) {
+    if(elm.template) {
+        for(i=0, x=elm.template.length; i<x; i++) {
             rtn += templateElement(elm.template[i]);
         }
     }
     
-    if(elm.links) {
-        for(i=0, x=elm.links.length; i<x; i++) {
-            rtn += linkElement(elm.links[i]);
+    if(elm.link) {
+        for(i=0, x=elm.link.length; i<x; i++) {
+            rtn += linkElement(elm.link[i]);
         }
     }
 
@@ -143,6 +152,17 @@ function templateElement(elm) {
     if(elm.name) {
         rtn += 'name="'+elm.name+'" ';
     }
+    if(elm.href) {
+        rtn += 'href="'+elm.href+'" ';
+    }
+    if(elm.action) {
+        rtn += 'action="'+elm.action+'" '
+    }
+    if(elm.prompt) {
+        rtn += 'prompt="'+elm.prompt+'" '
+    }
+    rtn += '>';
+
     if(elm.data) {
         for(i=0, x=elm.data.length; i<x; i++) {
             rtn += dataElement(elm.data[i]);
