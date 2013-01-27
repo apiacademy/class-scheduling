@@ -4,24 +4,7 @@
  * Mike Amundsen (@mamund)
  * ****************************************/
 
-module.exports = main;
-
-var csType = 'application/vnd.apiacademy-schedule+xml';
-var xmlType = 'application/xml';
-
-function main(object, mimeType) {
-    
-    switch(mimeType) {
-        case csType:
-        case xmlType:
-            rtn = processCSDoc(object);
-            break;
-        default:
-            return null;
-    }
-    
-    return rtn;
-}
+module.exports = processCSDoc;
 
 function processCSDoc(object) {
     var doc, i, x, tmp, coll;

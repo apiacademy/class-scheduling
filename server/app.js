@@ -105,7 +105,7 @@ function handler(req, res) {
     }
 
     if(rtn!==null) {
-        rtn = representation(rtn,csType);
+        rtn = representation(rtn);
         sendResponse(req, res, rtn, code);
     }    
 }
@@ -186,7 +186,7 @@ function sendHome(req, res) {
     doc = {action:{link:[]}};
     doc.action.link = pageLinks(root);
 
-    rtn = representation(doc,csType);
+    rtn = representation(doc);
     sendResponse(req, res, rtn, 200);
 }
 
