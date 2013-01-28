@@ -63,37 +63,25 @@ function handler(req, res) {
         switch(req.method) {
             case 'GET':
                 if(parts[1]) {
-
-                    rtn = component.students('read', parts[1], root);
-                    rtn.action = {};
-                    rtn.action.template = listTemplates('student',root);
-
-                    doc = {action:{link:[]}};
-                    doc.action.link = pageLinks(root);
-                    
-                    doc.list = [];
-                    doc.list.push(rtn);
-                    rtn = doc;
-
+                    rtn = sendStudentItem(req, res, parts[1]);
                     code = 200;
                     csType = testType;
                 }
                 else {
-                    rtn = component.students('list', root);
-                    rtn.action = {};
-                    rtn.action.template = listTemplates('student',root);
-
-                    doc = {action:{link:[]}};
-                    doc.action.link = pageLinks(root);
-
-                    doc.list = [];
-                    doc.list.push(rtn);
-                    rtn = doc;
-
+                    rtn = sendStudentList(req, res);
                     code = 200;
                     csType = testType;
                 }
                 break;
+            case 'DELETE':
+                if(parts[1]) {
+                    rtn = removeStudentItem(req, res, parts[1]);
+                    code = 204;
+                    csType = testType;
+                }
+                else {
+                    sendError(req, res, 'Method not Allowed', 405);
+                }
             default:
                 sendError(req, res, 'Method not Allowed', 405);
         }
@@ -108,6 +96,58 @@ function handler(req, res) {
         rtn = representation(rtn);
         sendResponse(req, res, rtn, code);
     }    
+}
+
+function sendHome(req, res) {
+    var rtn, doc, item;
+
+    doc = {action:{link:[]}};
+    doc.action.link = pageLinks(root);
+
+    rtn = representation(doc);
+    sendResponse(req, res, rtn, 200);
+}
+
+function sendStudentList(req, res) {
+    var rtn, doc;
+
+    rtn = component.students('list', root);
+    rtn.action = {};
+    rtn.action.template = listTemplates('student',root);
+
+    doc = {action:{link:[]}};
+    doc.action.link = pageLinks(root);
+
+    doc.list = [];
+    doc.list.push(rtn);
+    rtn = doc;
+
+    return rtn;
+}
+
+function sendStudentItem(req, res, id) {
+    var rtn, doc;
+
+    rtn = component.students('read', id, root);
+    rtn.action = {};
+    rtn.action.template = listTemplates('student',root);
+    doc = {action:{link:[]}};
+    doc.action.link = pageLinks(root);
+                 
+    doc.list = [];
+    doc.list.push(rtn);
+    rtn = doc;
+
+    return rtn;
+}
+
+function removeStudentItem(req, res, id) {
+    var rtn, doc;
+
+    rtn = component.students('remove', id, root);
+    rtn = '';
+
+    return rtn;
 }
 
 function pageLinks(root) {
@@ -178,16 +218,6 @@ function filterElements(name) {
     }
 
     return data;
-}
-
-function sendHome(req, res) {
-    var rtn, doc, item;
-
-    doc = {action:{link:[]}};
-    doc.action.link = pageLinks(root);
-
-    rtn = representation(doc);
-    sendResponse(req, res, rtn, 200);
 }
 
 function sendError(req, res, msg, code) {
