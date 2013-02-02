@@ -1,9 +1,11 @@
-/*******************************
+/********************************************
  * Class Scheduling 
  * Schedule Connector
  * January 2013
  * Mike Amundsen (@mamund)
- *******************************/
+ * http://www.infoq.com/author/Mike-Amundsen
+ * http://www.linkedin.com/in/mikeamundsen
+ ********************************************/
 
 var root = '';
 var qs = require('querystring');

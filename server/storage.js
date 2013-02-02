@@ -1,8 +1,11 @@
-/**********************************
- * Class Scheduling Storage Module
+/********************************************
+ * Class Scheduling 
+ * Storage Module
  * January 2013
  * Mike Amundsen (@mamund)
- * ********************************/
+ * http://www.infoq.com/author/Mike-Amundsen
+ * http://www.linkedin.com/in/mikeamundsen
+ ********************************************/
 
 var fs = require('fs');
 var folder = process.cwd()+'/data/';

@@ -1,9 +1,12 @@
-/***************************************
+/********************************************
  * Class-Scheduling 
  * Hypermedia Server
  * January 2013
  * Mike Amundsen (@mamund)
- * **************************************/
+ * http://www.infoq.com/author/Mike-Amundsen
+ * http://www.linkedin.com/in/mikeamundsen
+ ********************************************/
+
 
 // base modules
 var http = require('http');
