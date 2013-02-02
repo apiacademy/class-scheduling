@@ -1,13 +1,15 @@
 /***************************************
- * Class-Scheduling Hypermedia Server
+ * Class-Scheduling 
+ * Hypermedia Server
  * January 2013
  * Mike Amundsen (@mamund)
  * **************************************/
 
+// base modules
 var http = require('http');
 var querystring = require('querystring');
 
-var code = 0;
+//shared vars
 var root = '';
 var port = (process.env.PORT || 1337);
 var prodType = 'application/vnd.apiacademy-schedule+xml';
@@ -19,21 +21,31 @@ var storage = require('./storage.js');
 var component = require('./component.js');
 var representation = require('./representation.js');
 
-// routing
+// connector modules
+var course = require('./connectors/course.js');
+var home = require('./connectors/home.js');
+var schedule = require('./connectors/schedule.js');
+var student = require('./connectors/student.js');
+var teacher = require('./connectors/teacher.js');
+var utils = require('./connectors/utils.js');
+
+// routing rules
 var reHome = new RegExp('^\/$','i');
-var reStudents = new RegExp('^\/student\/.*','i');
-var reTeachers = new RegExp('^\/teacher\/.*','i');
-var reCourses = new RegExp('^\/course\/.*','i');
-var reSchedules = new RegExp('^\/schedule\/.*','i');
-var reFiles = new RegExp('^\/file\/.*','i');
+var reCourse = new RegExp('^\/course\/.*','i');
+var reSchedule = new RegExp('^\/schedule\/.*','i');
+var reStudent = new RegExp('^\/student\/.*','i');
+var reTeacher = new RegExp('^\/teacher\/.*','i');
+var reFile = new RegExp('^\/file\/.*','i');
 
-// top-level handler
+// request handler
 function handler(req, res) {
-    var segments, i, x, parts, rtn, flg;
+    var segments, i, x, parts, rtn, flg, doc;
 
-    // set root
+    // set local vars
     root = 'http://'+req.headers.host;
     csType = testType;
+    flg = false;
+    doc = null;
 
     // parse incoming request URL
     parts = [];
@@ -44,197 +56,65 @@ function handler(req, res) {
         }
     }
 
-    // route request
-    flg=false;
-
     // home
     if(reHome.test(req.url)) {
-        flg=true;
-        if(req.method==='GET') {
-            sendHome(req, res);
-        }
-        else {
-            sendError(req, res, 'Method Not Allowed', 405);
-        }
+        flg = true;
+        doc = home(req, res, parts, root);
     }
 
-    if(flg===false && reStudents.test(req.url)) {
-        flg=true;
-        switch(req.method) {
-            case 'GET':
-                if(parts[1]) {
-                    rtn = sendStudentItem(req, res, parts[1]);
-                    code = 200;
-                    csType = testType;
-                }
-                else {
-                    rtn = sendStudentList(req, res);
-                    code = 200;
-                    csType = testType;
-                }
-                break;
-            case 'DELETE':
-                if(parts[1]) {
-                    rtn = removeStudentItem(req, res, parts[1]);
-                    code = 204;
-                    csType = testType;
-                }
-                else {
-                    sendError(req, res, 'Method not Allowed', 405);
-                }
-            default:
-                sendError(req, res, 'Method not Allowed', 405);
-        }
+    // course
+    if(flg===false && reCourse.test(req.url)) {
+        flg = true;
+        doc = course(req, res, parts, root)
+    }
+
+    // schedule
+    if(flg===false && reSchedule.test(req.url)) {
+        flg = true;
+        doc = schedule(req, res, parts, root)
     }
     
+    // student
+    if(flg===false && reStudent.test(req.url)) {
+        flg = true;
+        doc = student(req, res, parts, root);
+    }
+
+    // teacher
+    if(flg===false && reTeacher.test(req.url)) {
+        flg = true;
+        doc = teacher(req, res, parts, root);
+    }
+
+    // catch error
     if(flg===false) {
-        sendError(req, res, 'Not Found', 404);
-        rtn = null;
+        doc = {code:404, doc:utils.errorDoc(req, res, 'Not Found')};
     }
 
-    if(rtn!==null) {
-        rtn = representation(rtn);
-        sendResponse(req, res, rtn, code);
-    }    
+    // send out response
+    if(doc!==null) {
+        rtn = representation(doc.doc);
+        sendResponse(req, res, rtn, doc.code, doc.headers);
+    }
+    else {
+        sendResponse(req, res, '<root />', 500);
+    }
 }
 
-function sendHome(req, res) {
-    var rtn, doc, item;
-
-    doc = {action:{link:[]}};
-    doc.action.link = pageLinks(root);
-
-    rtn = representation(doc);
-    sendResponse(req, res, rtn, 200);
-}
-
-function sendStudentList(req, res) {
-    var rtn, doc;
-
-    rtn = component.students('list', root);
-    rtn.action = {};
-    rtn.action.template = listTemplates('student',root);
-
-    doc = {action:{link:[]}};
-    doc.action.link = pageLinks(root);
-
-    doc.list = [];
-    doc.list.push(rtn);
-    rtn = doc;
-
-    return rtn;
-}
-
-function sendStudentItem(req, res, id) {
-    var rtn, doc;
-
-    rtn = component.students('read', id, root);
-    rtn.action = {};
-    rtn.action.template = listTemplates('student',root);
-    doc = {action:{link:[]}};
-    doc.action.link = pageLinks(root);
-                 
-    doc.list = [];
-    doc.list.push(rtn);
-    rtn = doc;
-
-    return rtn;
-}
-
-function removeStudentItem(req, res, id) {
-    var rtn, doc;
-
-    rtn = component.students('remove', id, root);
-    rtn = '';
-
-    return rtn;
-}
-
-function pageLinks(root) {
-    var links, item;
-
-    links = [];
-    item = {name:'home',href:root+'/', action:'read', prompt:'Home'};
-    links.push(item);
-    item = {name:'student',href:root+'/student/', action:'list', prompt:'Students'};
-    links.push(item);
-    item = {name:'teacher',href:root+'/teacher/', action:'list', prompt:'Teachers'};
-    links.push(item);
-    item = {name:'course',href:root+'/course/', action:'list', prompt:'Courses'};
-    links.push(item);
-    item = {name:'schedule',href:root+'/schedule/', action:'list', prompt:'Schedules'};
-    links.push(item);
-
-    return links;
-}
-
-function listTemplates(name, root) {
-    var template, tmp;
-
-    template = [];
-    tmp = {name:name, href:root+'/'+name+'/', action:'add', prompt:'Add '+name};
-    tmp.data = addElements(name);
-    template.push(tmp);
+function sendResponse(req, res, body, code, headers) {
+    var hdrs;
     
-    tmp = {name:name, href:root+'/'+name+'/', action:'filter', prompt:'Filter '+name};
-    tmp.data = filterElements(name);
-    template.push(tmp);
-
-    return template;
-}
-
-function addElements(name) {
-    var data;
-
-    data = [];
-    switch(name) {
-        case 'student':
-            data.push({name:'studentName',value:'',prompt:'studentName'});
-            data.push({name:'standing', value:'', prompt:'standing'});
-            break;
-        case 'course' :
-        case 'teacher' :
-        case 'schedule' :
-        default:
-            break;
+    if(headers && headers!==null) {
+        hdrs = headers;
     }
-
-    return data;
-}
-
-function filterElements(name) {
-    var data;
-
-    data = [];
-    switch(name) {
-        case 'student':
-            data.push({name:'studentName',value:'', prompt:'studentName'});
-            break;
-        case 'course':
-        case 'teacher':
-        case 'schedule':
-        default:
-            break;
+    else {
+        hdrs = {}
+        hdrs['content-type'] = csType;
     }
-
-    return data;
-}
-
-function sendError(req, res, msg, code) {
-    var doc, rtn;
-
-    doc = {error:{data:[]}};
-    doc.error.data.push({name:'message', value:msg, prompt:'Message'});
-    doc.error.data.push({name:'url', value:root+req.url, prompt:'URL'});
-
-    rtn = representation(doc, csType);
-    sendResponse(req, res, rtn, code);
-}
-
-function sendResponse(req, res, body, code) {
-    res.writeHead(code, {'Content-Type' : csType}),
+    res.writeHead(code, hdrs),
     res.end(body);
 }
 
+// wait for request
 http.createServer(handler).listen(port);
 

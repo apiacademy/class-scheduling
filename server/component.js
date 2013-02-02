@@ -1,5 +1,6 @@
 /**************************************
- * Class Scheduling Business Component
+ * Class Scheduling 
+ * Business Component
  * January 2012
  * Mike Amundsen (@mamund)
  * ************************************/
@@ -7,7 +8,7 @@
 // access stored data
 var storage = require('./storage.js');
 
-exports.students = function(action, args1, args2, args3) {
+exports.student = function(action, args1, args2, args3) {
     var object, rtn;
     
     object = 'student';
@@ -45,7 +46,7 @@ exports.students = function(action, args1, args2, args3) {
     return rtn;
 }
 
-exports.teachers = function(action, args1, args2) {
+exports.teacher = function(action, args1, args2) {
     var object, rtn;
 
     object = 'teacher';
@@ -53,22 +54,28 @@ exports.teachers = function(action, args1, args2) {
 
     switch(action) {
         case 'list':
-            rtn = storage(object, 'list');
+            rtn = loadList(storage(object, 'list'), object);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'read':
-            rtn = storage(object, 'item', args1);
+            rtn = loadList(storage(object, 'item', args1), object);
+            rtn = addEditing(rtn, object, args2);
             break;
         case 'filter':
-            rtn = storage(object, 'filter', args1);
+            rtn = loadList(storage(object, 'filter', args1), object);
+            rtn = addEditing(rtn, object, args2);
             break;
         case 'add':
-            rtn = storage(object, 'add', args1);
+            rtn = loadList(storage(object, 'add', args1), object);
+            rtn = addEditing(rtn, object, args2);
             break;
         case 'update':
-            rtn = storage(object, 'update', args1, args2);
+            rtn = loadList(storage(object, 'update', args1, args2), object);
+            rtn = addEditing(rtn, object, args3);
             break;
         case 'remove':
-            rtn = storage(object, 'remove', args1);
+            rtn = loadList(storage(object, 'remove', args1), object);
+            rtn = addEditing(rtn, object, args2);
             break;
         default:
             rtn = null;
@@ -77,7 +84,7 @@ exports.teachers = function(action, args1, args2) {
     return rtn;
 }
 
-exports.courses = function(action, args1, args2) {
+exports.course = function(action, args1, args2) {
     var object, rtn;
 
     object = 'course';
@@ -85,22 +92,28 @@ exports.courses = function(action, args1, args2) {
 
     switch(action) {
         case 'list':
-            rtn = storage(object, 'list');
+            rtn = loadList(storage(object, 'list'), object);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'read':
-            rtn = storage(object, 'item', args1);
+            rtn = loadList(storage(object, 'item', args1), object);
+            rtn = addEditing(rtn, object, args2);
             break;
         case 'filter':
-            rtn = storage(object, 'filter', args1);
+            rtn = loadList(storage(object, 'filter', args1), object);
+            rtn = addEditing(rtn, object, args2);
             break;
         case 'add':
-            rtn = storage(object, 'add', args1);
+            rtn = loadList(storage(object, 'add', args1), object);
+            rtn = addEditing(rtn, object, args2);
             break;
         case 'update':
-            rtn = storage(object, 'update', args1, args2);
+            rtn = loadList(storage(object, 'update', args1, args2), object);
+            rtn = addEditing(rtn, object, args3);
             break;
         case 'remove':
-            rtn = storage(object, 'remove', args1);
+            rtn = loadList(storage(object, 'remove', args1), object);
+            rtn = addEditing(rtn, object, args2);
             break;
         default:
             rtn = null;
@@ -109,7 +122,7 @@ exports.courses = function(action, args1, args2) {
     return rtn;
 }
 
-exports.schedules = function(action, args1, args2) {
+exports.schedule = function(action, args1, args2) {
     var object, rtn;
 
     object = 'schedule';
@@ -117,19 +130,24 @@ exports.schedules = function(action, args1, args2) {
 
     switch(action) {
         case 'list':
-            rtn = dataElements(storage(object, 'list'), object);
+            rtn = loadList(storage(object, 'list'), object);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'read':
-            rtn = storage(object, 'item', args1);
-            break;
-        case 'filter':
-            rtn = storage(object, 'filter', args1);
+            rtn = loadList(storage(object, 'item', args1), object);
+            rtn = addEditing(rtn, object, args2);
             break;
         case 'add':
-            rtn = storage(object, 'add', args1);
+            rtn = loadList(storage(object, 'add', args1), object);
+            rtn = addEditing(rtn, object, args2);
+            break;
+        case 'update':
+            rtn = loadList(storage(object, 'update', args1, args2), object);
+            rtn = addEditing(rtn, object, args3);
             break;
         case 'remove':
-            rtn = storage(object, 'remove', args1);
+            rtn = loadList(storage(object, 'remove', args1), object);
+            rtn = addEditing(rtn, object, args2);
             break;
         case 'assign':
         case 'unassign':
