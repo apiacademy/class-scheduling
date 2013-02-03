@@ -31,19 +31,19 @@
     <div id="{@name}">
       <h2><xsl:value-of select="@name" /></h2>
       <xsl:apply-templates select="actions" />
-      <dl>
+      <div>
         <xsl:apply-templates select="item" />
-      </dl>
+      </div>
     </div> 
   </xsl:template>
 
   <xsl:template match="item">
-      <dt>
+      <div>
         <xsl:apply-templates select="actions" />
-      </dt>
-      <dd>
+      </div>
+      <div>
         <xsl:apply-templates select="display"/>
-      </dd>
+      </div>
   </xsl:template>  
 
   <xsl:template match="actions">
@@ -62,19 +62,25 @@
   </xsl:template>
   
   <xsl:template match="template">
-    <form action="{@href}" class="{@name}">
+    <form action="{@href}" method="post">
       <fieldset>
-        <legend><xsl:value-of select="@name" /> : <xsl:value-of select="@action" /></legend>
-        <xsl:apply-templates select="data" mode="input"/>
-       </fieldset>
-     </form>
+        <legend><xsl:value-of select="@action"/></legend>
+        <xsl:apply-templates select="data" mode="input"/> 
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn">Cancel</button>
+      </div>
+      </fieldset>    
+    </form>
   </xsl:template>
  
   <xsl:template match="data" mode="input">
-    <p>
-      <label><xsl:value-of select="@prompt" /></label>
-      <input name="{@name}" value="{@value}"/>
-    </p>
+    <div class="control-group">
+      <label class="control-label"><xsl:value-of select="@prompt" /></label>
+      <div class="controls">
+        <input name="{@name}" value="{@value}"/>
+      </div>
+    </div>
   </xsl:template>
 
   <xsl:template match="data" mode="display">

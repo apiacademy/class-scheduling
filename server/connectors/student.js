@@ -30,7 +30,7 @@ function main(req, res, parts, base) {
             break;
         case 'POST':
             if(parts[1]) {
-                doc = errorDoc(req, res, 'Method Not Allowed', 405);
+                doc = utils.errorDoc(req, res, 'Method Not Allowed', 405);
             }
             else {
                 doc = {code:200, doc:addItem(req, res)};

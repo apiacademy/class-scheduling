@@ -12,14 +12,14 @@ window.onload = function() {
   var elm, coll, i, x;
   
   // style the body
-  elm = document.getElementsByTagName('div')[0];
-  if(elm) {elm.className = 'hero-unit';}
+  //elm = document.getElementsByTagName('div')[0];
+  //if(elm) {elm.className = 'hero-unit';}
   
   // style the nav links
   coll = document.getElementsByTagName('a');
   for(i=0, x=coll.length; i<x;i++) {
     if(coll[i].parentNode.className==='links') {
-      coll[i].className = 'btn btn-primary btn-large';
+      coll[i].className = 'btn btn-primary';
     }
   }
  
@@ -28,8 +28,10 @@ window.onload = function() {
   if(elm) {elm.className='dl-horizontal'};
   
   // style the input form
-  elm = document.getElementsByTagName('form')[0];
-  if(elm) {elm.className='form-inline';}
+  coll = document.getElementsByTagName('form');
+  for(i=0, x=coll.length; i<x; i++) {
+    coll[i].className='form-horizontal';
+  }
   coll = document.getElementsByTagName('input');
   for(i=0, x=coll.length; i<x; i++) {
     if(coll[i].getAttribute('type')==='submit') {
