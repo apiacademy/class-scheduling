@@ -12,7 +12,9 @@ module.exports = processCSDoc;
 function processCSDoc(object) {
     var doc, i, x, tmp, coll;
 
-    doc = '<root>';
+    doc = '';
+    doc += '<?xml-stylesheet type="text/xsl" href="/file/browser.xsl" ?>';
+    doc += '<root>';
 
     // handle action element
     if(object && object.action) {

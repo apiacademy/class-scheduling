@@ -7,6 +7,9 @@
  * http://www.linkedin.com/in/mikeamundsen
  ********************************************/
 
+var fs = require('fs');
+var folder = process.cwd()+'/file/';
+
 exports.pageActions = function(root) {
     var links, item;
 
@@ -40,3 +43,27 @@ exports.errorDoc = function(req, res, msg, code) {
     return {code:code,doc:doc};
 }
 
+exports.file = function(req, res, parts, root) {
+    var body, doc, type;
+
+    try {
+        body = fs.readFileSync(folder+parts[1]);
+
+        type = 'text/plain';
+        if(parts[1].indexOf('.js')!==-1) {
+            type = 'application/javascript';
+        }
+        if(parts[1].indexOf('.css')!==-1) {
+            type = 'text/css';
+        }
+        if(parts[1].indexOf('.xsl')!==-1) {
+            type = 'text/xsl';
+        }
+        doc = {code:200, doc:body, headers:{'content-type':type}}; 
+    }
+    catch(ex) {
+        doc = {code:404,doc:'<root />'};
+    }
+
+    return doc;
+}

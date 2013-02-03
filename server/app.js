@@ -12,7 +12,7 @@
 var http = require('http');
 var querystring = require('querystring');
 
-//shared vars
+// shared vars
 var root = '';
 var port = (process.env.PORT || 1337);
 var prodType = 'application/vnd.apiacademy-schedule+xml';
@@ -48,6 +48,7 @@ function handler(req, res) {
     root = 'http://'+req.headers.host;
     csType = testType;
     flg = false;
+    file = false;
     doc = null;
 
     // parse incoming request URL
@@ -89,6 +90,13 @@ function handler(req, res) {
         doc = teacher(req, res, parts, root);
     }
 
+    // files
+    if(flg===false && reFile.test(req.url)) {
+        flg = true;
+        file = true;
+        doc = utils.file(req, res, parts, root);
+    }
+    
     // catch error
     if(flg===false) {
         doc = {code:404, doc:utils.errorDoc(req, res, 'Not Found')};
@@ -96,7 +104,12 @@ function handler(req, res) {
 
     // send out response
     if(doc!==null) {
-        rtn = representation(doc.doc);
+        if(file===true) {
+            rtn = doc.doc;
+        }
+        else {
+            rtn = representation(doc.doc);
+        }
         sendResponse(req, res, rtn, doc.code, doc.headers);
     }
     else {
@@ -112,8 +125,11 @@ function sendResponse(req, res, body, code, headers) {
     }
     else {
         hdrs = {}
+    }
+    if(!hdrs['content-type']) {
         hdrs['content-type'] = csType;
     }
+
     res.writeHead(code, hdrs),
     res.end(body);
 }
