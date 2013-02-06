@@ -4,7 +4,7 @@ _A set of example messages using the Class Scheduling media type and the
 Class Scheduling Problem Domain._
 
 [horizontal]
-Date :: Janusay 2013
+Date :: January 2013
 Author :: http://twitter.com/mamund[Mike Amundsen],
 Principal API Architect for http://layer7tech.com[Layer 7 Technologies]
 Status :: Version 1.0
