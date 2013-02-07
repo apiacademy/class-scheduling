@@ -61,23 +61,23 @@ exports.teacher = function(action, args1, args2) {
             break;
         case 'read':
             rtn = loadList(storage(object, 'item', args1), object);
-            rtn = addEditing(rtn, object, args2);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'filter':
             rtn = loadList(storage(object, 'filter', args1), object);
-            rtn = addEditing(rtn, object, args2);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'add':
             rtn = loadList(storage(object, 'add', args1), object);
-            rtn = addEditing(rtn, object, args2);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'update':
             rtn = loadList(storage(object, 'update', args1, args2), object);
-            rtn = addEditing(rtn, object, args3);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'remove':
             rtn = loadList(storage(object, 'remove', args1), object);
-            rtn = addEditing(rtn, object, args2);
+            rtn = addEditing(rtn, object, args1);
             break;
         default:
             rtn = null;
@@ -99,23 +99,23 @@ exports.course = function(action, args1, args2) {
             break;
         case 'read':
             rtn = loadList(storage(object, 'item', args1), object);
-            rtn = addEditing(rtn, object, args2);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'filter':
             rtn = loadList(storage(object, 'filter', args1), object);
-            rtn = addEditing(rtn, object, args2);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'add':
             rtn = loadList(storage(object, 'add', args1), object);
-            rtn = addEditing(rtn, object, args2);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'update':
             rtn = loadList(storage(object, 'update', args1, args2), object);
-            rtn = addEditing(rtn, object, args3);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'remove':
             rtn = loadList(storage(object, 'remove', args1), object);
-            rtn = addEditing(rtn, object, args2);
+            rtn = addEditing(rtn, object, args1);
             break;
         default:
             rtn = null;
@@ -137,27 +137,89 @@ exports.schedule = function(action, args1, args2) {
             break;
         case 'read':
             rtn = loadList(storage(object, 'item', args1), object);
-            rtn = addEditing(rtn, object, args2);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'add':
             rtn = loadList(storage(object, 'add', args1), object);
-            rtn = addEditing(rtn, object, args2);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'update':
             rtn = loadList(storage(object, 'update', args1, args2), object);
-            rtn = addEditing(rtn, object, args3);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'remove':
             rtn = loadList(storage(object, 'remove', args1), object);
-            rtn = addEditing(rtn, object, args2);
+            rtn = addEditing(rtn, object, args1);
             break;
         case 'assign':
+	    appendStudent(args1, args2);
+	    rtn = loadList(storage(object, 'item', args1), object);
+	    rtn = addEditing(rtn, object, args1);
+	    break;
         case 'unassign':
+	    dropStudent(args1, args2);
+	    rtn = loadList(storage(object, 'item', args1), object);
+	    rtn = addediting(rtn, object, args1);
+	    break;
         default:
             rtn = null;
     }
 
     return rtn;
+}
+
+function appendStudent(skid, stid) {
+    var schedule, student, coll, i, x, flg;
+
+    schedule = storage('schedule', 'item', skid);
+    student = storage('student', 'item', stid);
+
+    flg = false;
+
+    // make sure there's a collection
+    if(!schedule.students) {
+        schedule.students = [];
+    }
+
+    // see if this student already exists
+    coll = schedule.students;
+    for(i=0, x=coll.length; i<x; i++) {
+        if(coll[i].id===student.id) {
+	    flg = true;  
+	}
+    }
+
+    // add it if needed
+    if(flg===false) {
+        coll.push(student);
+	schedule.students = coll;
+    }
+
+    // save results
+    storage('schedule', 'update', skid, schedule);
+}
+
+function dropStudent(skid, stid) {
+    var schedule, student, coll, i, x;
+
+    schedule = storage('schedule', 'item', skid);
+     
+    // make sure there's a collection
+    if(!schedule.students) {
+        schedule.students = [];
+    }
+
+    // drop student, if it exists
+    coll = schedule.students;
+    for(i=0, x=coll.length; i<x; i++) {
+        if(coll[i].id===stid) {
+	    coll[i].pop();
+	    schedule.students = coll[i];
+	}
+    }
+
+    // save results
+    storage('schedule', 'update', skid, schedule);
 }
 
 function loadList(elm, name) {
