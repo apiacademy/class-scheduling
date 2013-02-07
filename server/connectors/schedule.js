@@ -33,7 +33,20 @@ function main(req, res, parts, base) {
                 doc = errorDoc(req, res, 'Method Not Allowed', 405);
             }
             else {
-                doc = {code:200, doc:addItem(req, res)};
+                 switch(parts[0].toLowerCase()) {
+                    case 'assign' :
+                        doc = {code:200, doc:assignStudent(req, res)};
+                        break;
+                    case 'unassign' :
+                        doc = {code:200, doc:dropStudent(req, res)};
+                        break;
+                    case 'schedule' :
+                        doc = {code:200, doc:addItem(req, res)};
+                        break;
+                    default :
+                        doc = errorDoc(req, res, 'Method Not Allowed', 405);
+                        break;
+                }
             }
             break;
         case 'PUT':
@@ -54,6 +67,50 @@ function main(req, res, parts, base) {
         default:
             doc = utils.errorDoc(req, res, 'Method Not Allowed', 405);
     }
+
+    return doc;
+}
+
+function assignStudent(req, res) {
+    var body, doc, msg, item;
+
+    body = '';
+    req.on('data', function(chunk) {
+        body += chunk;
+    });
+
+    req.on('end', function() {
+        try {
+            msg = qs.parse(body);
+            item = component.schedule('assign', msg.scheduleId, msg.studentId);
+            doc = sendItem(req, res, msg.scheduleId);
+        }
+        catch(ex) {
+            doc = utils.errorDoc(req, res, 'Server Error', 500);
+        }
+    });
+
+    return doc;
+}
+
+function dropStudent(req, res) {
+    var body, doc, msg, item;
+
+    body = '';
+    req.on('data', function(chunk) {
+        body += chunk;
+    });
+
+    req.on('end', function() {
+        try {
+            msg = qs.parse(body);
+            item = component.schedule('unassign', msg.scheduleId, msg.studentId);
+            doc = sendItem(req, res, msg.scheduleId);
+        }
+        catch(ex) {
+            doc = utils.errorDoc(req, res, 'Server Error', 500);
+        }
+    });
 
     return doc;
 }

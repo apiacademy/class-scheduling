@@ -1,0 +1,24 @@
+<root>
+  <actions>
+    <link name="home" 
+      href="http://localhost:1337/" 
+      action="read" 
+      prompt="Home" />
+    <link name="student" 
+      href="http://localhost:1337/student/" 
+      action="list" 
+      prompt="Students" />
+    <link name="teacher" 
+      href="http://localhost:1337/teacher/" 
+      action="list" 
+      prompt="Teachers" />
+    <link name="course" 
+      href="http://localhost:1337/course/" 
+      action="list" 
+      prompt="Courses" />
+    <link name="schedule" 
+      href="http://localhost:1337/schedule/" 
+      action="list" 
+      prompt="Schedules" />
+  </actions>
+</root>
