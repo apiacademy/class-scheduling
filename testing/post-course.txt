@@ -1,0 +1,1 @@
+courseName=HTTP%20Basics&courseCapacity=10&courseDescription=Fundamental%20HTTP%20for%20newbies
