@@ -1,1 +1,1 @@
-courseName=Hypermedia%20101&courseCapacity=15&courseDescription=Beginner%20Course.
+courseName=HTTP%20Basics&courseCapacity=10&courseDescription=Fundamental%20HTTP%20for%20newbies

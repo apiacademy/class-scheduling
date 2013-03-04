@@ -38,6 +38,8 @@ var reCourse = new RegExp('^\/course\/.*','i');
 var reSchedule = new RegExp('^\/schedule\/.*','i');
 var reStudent = new RegExp('^\/student\/.*','i');
 var reTeacher = new RegExp('^\/teacher\/.*','i');
+var reAssign = new RegExp('^\/assign\/$', 'i');
+var reUnassign = new RegExp('^\/unassign\/$', 'i');
 var reFile = new RegExp('^\/file\/.*','i');
 
 // request handler
@@ -88,6 +90,18 @@ function handler(req, res) {
     if(flg===false && reTeacher.test(req.url)) {
         flg = true;
         doc = teacher(req, res, parts, root);
+    }
+
+    // assign
+    if(flg===false && reAssign.test(req.url)) {
+        flg = true;
+        doc = schedule(req, res, parts, root);
+    }
+
+    // unassign
+    if(flg===false && reUnassign.test(req.url)) {
+        flg = true;
+        doc = schedule(req, res, parts, root);
     }
 
     // files

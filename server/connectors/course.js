@@ -97,12 +97,15 @@ function addItem(req, res) {
     body = '';
     req.on('data', function(chunk) {
         body += chunk;
+        console.log(body);
     });
 
     req.on('end', function() {
         try {
             msg = qs.parse(body);
+            console.log(JSON.stringify(msg));
             list = component.course('add', msg);
+            console.log(JSON.stringify(list));
             doc = {code:200, doc:list};
         }
         catch(ex) {

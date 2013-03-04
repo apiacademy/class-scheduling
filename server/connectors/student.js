@@ -8,6 +8,7 @@
  ********************************************/
 
 var root = '';
+var http = require('http');
 var qs = require('querystring');
 var utils = require('./utils.js');
 var component = require('./../component.js');

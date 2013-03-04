@@ -200,7 +200,7 @@ function appendStudent(skid, stid) {
 }
 
 function dropStudent(skid, stid) {
-    var schedule, student, coll, i, x;
+    var schedule, student, coll, store, i, x;
 
     schedule = storage('schedule', 'item', skid);
      
@@ -209,16 +209,17 @@ function dropStudent(skid, stid) {
         schedule.students = [];
     }
 
-    // drop student, if it exists
+    // rebuild collection without the requested student
+    store = [];
     coll = schedule.students;
     for(i=0, x=coll.length; i<x; i++) {
-        if(coll[i].id===stid) {
-	    coll[i].pop();
-	    schedule.students = coll[i];
-	}
+        if(coll[i].id!==stid) {
+            store.push(coll[i]);
+	    }
     }
 
     // save results
+    schedule.students = store;
     storage('schedule', 'update', skid, schedule);
 }
 
