@@ -17,7 +17,7 @@ function processCSDoc(object) {
     doc = '';
  
     // insert XSLT for explorer
-    doc += '<?xml-stylesheet type="text/xsl" href="/file/browser.xsl" ?>';
+     doc += '<?xml-stylesheet type="text/xsl" href="/file/browser.xsl" ?>';
 
     // start the representation body
     doc += '<root>';
