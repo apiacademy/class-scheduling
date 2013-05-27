@@ -12,9 +12,14 @@ module.exports = processCSDoc;
 function processCSDoc(object) {
     var doc, i, x, tmp, coll;
 
-    console.log(JSON.stringify(object));
+    //console.log(JSON.stringify(object));
 
     doc = '';
+ 
+    // insert XSLT for explorer
+    doc += '<?xml-stylesheet type="text/xsl" href="/file/browser.xsl" ?>';
+
+    // start the representation body
     doc += '<root>';
 
     // handle action element

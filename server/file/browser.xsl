@@ -12,7 +12,6 @@
         <title>
           Class Scheduling
         </title>
-        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet" />
         <link type="text/css" rel="stylesheet" href="/file/browser.css" />
       </head>
       <body>
@@ -21,14 +20,12 @@
         <xsl:apply-templates select="//root/list" />
         <xsl:apply-templates select="//root/error" />
       </body>
-      <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-      <script src="http://code.jquery.com/jquery-latest.js"></script>
       <script src="/file/browser.js" type="text/javascript">//na</script>
     </html>
   </xsl:template>
   
   <xsl:template match="list">
-    <div id="{@name}">
+    <div id="{@name}" class="list-block">
       <h2><xsl:value-of select="@name" /></h2>
       <xsl:apply-templates select="actions" />
       <div>
@@ -38,19 +35,20 @@
   </xsl:template>
 
   <xsl:template match="item">
-      <div>
-        <xsl:apply-templates select="actions" />
-      </div>
-      <div>
-        <xsl:apply-templates select="display"/>
-      </div>
+    <hr />
+    <div class="item-display">
+      <xsl:apply-templates select="display"/>
+    </div>
+    <div class="item-actions">
+      <xsl:apply-templates select="actions" />
+    </div>
   </xsl:template>  
 
   <xsl:template match="actions">
-    <p class="links">
+    <!--<p class="links">-->
       <xsl:apply-templates select="link" />
-    </p>
-    <xsl:apply-templates select="template" />
+    <!--</p>-->  
+    <xsl:apply-templates select="template" />  
   </xsl:template>
       
   <xsl:template match="display">
@@ -58,17 +56,17 @@
   </xsl:template>
   
   <xsl:template match="link">
-    <a href="{@href}" title="{@prompt}"><xsl:value-of select="@prompt"/></a>
+    <a href="{@href}" title="{@prompt}" class="link"><xsl:value-of select="@prompt"/></a>
   </xsl:template>
   
   <xsl:template match="template">
-    <form action="{@href}" method="post">
+    <form action="{@href}" method="post" legend="{@action}">
       <fieldset>
         <legend><xsl:value-of select="@action"/></legend>
         <xsl:apply-templates select="data" mode="input"/> 
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn">Cancel</button>
+        <button type="submit">Save</button>
+        <button type="button">Cancel</button>
       </div>
       </fieldset>    
     </form>
@@ -91,7 +89,7 @@
   </xsl:template>
   
   <xsl:template match="error">
-    <div id="error">
+    <div class="error">
       <h2>Error</h2>
       <xsl:apply-templates match="data" mode="display"/>
     </div>

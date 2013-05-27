@@ -45,34 +45,39 @@ function getList(object, filter) {
     var coll, item, list, i, x, fld;
 
     coll = [];
-    list = fs.readdirSync(folder+object+'/');
-    for(i=0, x=list.length; i<x; i++) {
-        fld=null;
-        item = JSON.parse(fs.readFileSync(folder+object+'/'+list[i]));
-        if(filter) {
-            switch(object) {
-                case 'student':
-                    fld = 'studentName';
-                    break;
-                case 'teacher':
-                    fld = 'teacherName';
-                    break;
-                case 'course':
-                    fld = 'courseName';
-                    break;
-                default:
-                    break;
-            }
-            if(fld!==null) {
-                if(item[fld].toLowerCase().indexOf(filter.toLowerCase())!==-1) {
-                    coll.push(item);
+    try {
+        list = fs.readdirSync(folder+object+'/');
+        for(i=0, x=list.length; i<x; i++) {
+            fld=null;
+            item = JSON.parse(fs.readFileSync(folder+object+'/'+list[i]));
+            if(filter) {
+                switch(object) {
+                    case 'student':
+                        fld = 'studentName';
+                        break;
+                    case 'teacher':
+                        fld = 'teacherName';
+                        break;
+                    case 'course':
+                        fld = 'courseName';
+                        break;
+                    default:
+                       break;
                 }
+                if(fld!==null) {
+                    if(item[fld].toLowerCase().indexOf(filter.toLowerCase())!==-1) {
+                        coll.push(item);
+                    }
 
+                }
             }
-        }
-        else {
-            coll.push(item);
-        }
+            else {
+                coll.push(item);
+            }
+       }
+    }
+    catch(ex) {
+        coll = [];
     }
 
     return coll;

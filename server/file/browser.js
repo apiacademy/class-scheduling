@@ -7,36 +7,43 @@
  * http://www.linkedin.com/in/mikeamundsen
  ********************************************/
  
-// uses bootstrap for styling
+// style on load
 window.onload = function() {
   var elm, coll, i, x;
   
   // style the body
-  //elm = document.getElementsByTagName('div')[0];
-  //if(elm) {elm.className = 'hero-unit';}
+  markForms();
   
-  // style the nav links
-  coll = document.getElementsByTagName('a');
-  for(i=0, x=coll.length; i<x;i++) {
-    if(coll[i].parentNode.className==='links') {
-      coll[i].className = 'btn btn-primary';
+  function markForms() {
+    coll = document.getElementsByTagName('form');
+    for(i=0,x=coll.length;i<x;i++) {
+      coll[i].style.display='none';
+      coll[i].id='form-'+i;
+      elm = document.createElement('a');
+      elm.href='#';
+      elm.class=coll[i].getAttribute('legend')+'_link';
+      elm.id='link-'+i;
+      elm.appendChild(document.createTextNode(coll[i].getAttribute('legend')));
+      elm.onclick = toggleForm;
+      coll[i].parentNode.appendChild(elm);
     }
   }
- 
-  // style the message details
-  elm = document.getElementsByTagName('dl')[0];
-  if(elm) {elm.className='dl-horizontal'};
-  
-  // style the input form
-  coll = document.getElementsByTagName('form');
-  for(i=0, x=coll.length; i<x; i++) {
-    coll[i].className='form-horizontal';
-  }
-  coll = document.getElementsByTagName('input');
-  for(i=0, x=coll.length; i<x; i++) {
-    if(coll[i].getAttribute('type')==='submit') {
-      coll[i].className='btn';
+
+  function toggleForm() {
+    var a,f;
+
+    a = this;
+    f = document.getElementById(this.id.replace('link','form'));
+    if(a.style.display==='none') {
+      a.style.display='inline';
+      f.style.display='none';
     }
+    else {
+      a.style.display='none';
+      f.style.display='inline';
+    }
+
+    return false;
   }
 }
 
