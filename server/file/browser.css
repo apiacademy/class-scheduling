@@ -7,12 +7,49 @@
  * http://www.linkedin.com/in/mikeamundsen
  ********************************************/
 
-//{
-//  margin-left:.3em;
-//};
+/*****************
+ * color set
+ * #fb3b2c red accent
+ * #222222 hard background (black)
+ * #f7f7f7 hard primary lettering & soft background
+ * #e8e4db hard secondary lettering
+ * #36454a soft primary lettering
+ * #908f94 soft secondary lettering
+ *****************/
 
-.hide {
-  display:none;
+/* customize view */
+.id, .dateCreated {display:none};
+
+body {
+  background-color:#f7f7f7;
+}
+body, h1, h2, h3, h4, h5, h6 {
+  margin:0;
+  padding:0;
+  font-family:  Arial, Helvetica, Tahoma, sans-serif;
+}
+
+.footer {
+  margin:0;
+  padding: .5em .3em .5em .3em;
+  text-align:center;
+  background-color:#222222;
+  color:#f7f7f7;
+  font-style:italic;
+  font-weight:bold;
+}
+
+.softbg {
+  margin:0;
+  padding: 0 .1em;
+  background-color: #f7f7f7;
+  color:#36454a;
+}
+.hardbg {
+  margin:0;
+  padding: 0 .1em;
+  background-color: #222222;
+  color: #f7f7f7;
 }
 
 .item {
@@ -29,32 +66,29 @@ dl {
 dt {
   float: left;
   clear: left;
-  width: 100px;
+  width: 140px;
   text-align: right;
   font-weight: bold;
-  //color: green;
 }
 dt:after {
   content: ":";
 }
 dd {
-  margin: 0 0 0 110px;
+  margin: 0 0 0 150px;
   padding: 0 0 0.5em 0;
 }
 
 .links {
   list-style: none;
   margin-bottom: 10px;
-  // margin-top: -6px;
   position: relative;
-  right: 286px;
   z-index: 9;
   height: 26px;
   padding: 4px 4px 4px 4px;
   font-weight: bold;
 }
 .links li {
-  float: right;
+  float: left;
   margin-right: 10px;
   border: 1px solid grey;
 }
@@ -68,5 +102,16 @@ dd {
 }
 .links a:hover {
   color: #fff;
-  background: #04B431;
+  background: #908f94; //#04B431;
 }
+
+p.input label {
+  display:block;
+  float:left;
+  width:140px;
+}
+
+p.input {
+    margin:10px 0;  
+}
+

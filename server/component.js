@@ -152,15 +152,15 @@ exports.schedule = function(action, args1, args2) {
             rtn = addEditing(rtn, object, args1);
             break;
         case 'assign':
-	    appendStudent(args1, args2);
-	    rtn = loadList(storage(object, 'item', args1), object);
-	    rtn = addEditing(rtn, object, args1);
-	    break;
+	          appendStudent(args1, args2);
+	          rtn = loadList(storage(object, 'item', args1), object);
+	          rtn = addEditing(rtn, object, args1);
+	          break;
         case 'unassign':
-	    dropStudent(args1, args2);
-	    rtn = loadList(storage(object, 'item', args1), object);
-	    rtn = addediting(rtn, object, args1);
-	    break;
+	          dropStudent(args1, args2);
+	          rtn = loadList(storage(object, 'item', args1), object);
+	          rtn = addediting(rtn, object, args1);
+	          break;
         default:
             rtn = null;
     }

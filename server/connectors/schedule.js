@@ -64,6 +64,7 @@ function main(req, res, parts, base) {
             else {
                 doc = utils.errorDoc(req, res, 'Method Not Allowed', 405);
             }
+	    break;
         default:
             doc = utils.errorDoc(req, res, 'Method Not Allowed', 405);
     }

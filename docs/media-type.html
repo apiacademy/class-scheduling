@@ -3,27 +3,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.4" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
 <title>Class Scheduling Media Type</title>
 <style type="text/css">
-/* Sans-serif font. */
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
 h1, h2, h3, h4, h5, h6,
 div.title, caption.title,
 thead, p.table.header,
-div#toctitle,
-span#author, span#revnumber, span#revdate, span#revremark,
-div#footer {
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
   font-family: Arial,Helvetica,sans-serif;
-}
-
-/* Serif font. */
-div.sectionbody {
-  font-family: Georgia,"Times New Roman",Times,serif;
-}
-
-/* Monospace font. */
-tt {
-  font-size: inherit;
 }
 
 body {
@@ -48,11 +45,6 @@ strong {
   color: #083194;
 }
 
-tt {
-  font-size: inherit;
-  color: navy;
-}
-
 h1, h2, h3, h4, h5, h6 {
   color: #527bbd;
   margin-top: 1.2em;
@@ -71,6 +63,9 @@ h3 {
 }
 h3 + * {
   clear: left;
+}
+h5 {
+  font-size: 1.0em;
 }
 
 div.sectionbody {
@@ -92,41 +87,45 @@ ul, ol, li > p {
 ul > li     { color: #aaa; }
 ul > li > * { color: black; }
 
-pre {
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
   padding: 0;
   margin: 0;
 }
 
-span#author {
+
+#author {
   color: #527bbd;
   font-weight: bold;
   font-size: 1.1em;
 }
-span#email {
+#email {
 }
-span#revnumber, span#revdate, span#revremark {
+#revnumber, #revdate, #revremark {
 }
 
-div#footer {
+#footer {
   font-size: small;
   border-top: 2px solid silver;
   padding-top: 0.5em;
   margin-top: 4.0em;
 }
-div#footer-text {
+#footer-text {
   float: left;
   padding-bottom: 0.5em;
 }
-div#footer-badges {
+#footer-badges {
   float: right;
   padding-bottom: 0.5em;
 }
 
-div#preamble {
+#preamble {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
 }
-div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
+div.imageblock, div.exampleblock, div.verseblock,
 div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
 div.admonitionblock {
   margin-top: 1.0em;
@@ -184,7 +183,7 @@ div.quoteblock, div.verseblock {
   margin-left: 1.0em;
   margin-right: 10%;
   border-left: 5px solid #f0f0f0;
-  color: #777777;
+  color: #888;
 }
 
 div.quoteblock > div.attribution {
@@ -267,35 +266,12 @@ div.compact div, div.compact div {
   margin-bottom: 0.1em;
 }
 
-div.tableblock > table {
-  border: 3px solid #527bbd;
-}
-thead, p.table.header {
-  font-weight: bold;
-  color: #527bbd;
-}
 tfoot {
   font-weight: bold;
 }
 td > div.verse {
   white-space: pre;
 }
-p.table {
-  margin-top: 0;
-}
-/* Because the table frame attribute is overriden by CSS in most browsers. */
-div.tableblock > table[frame="void"] {
-  border-style: none;
-}
-div.tableblock > table[frame="hsides"] {
-  border-left-style: none;
-  border-right-style: none;
-}
-div.tableblock > table[frame="vsides"] {
-  border-top-style: none;
-  border-bottom-style: none;
-}
-
 
 div.hdlist {
   margin-top: 0.8em;
@@ -362,14 +338,14 @@ div.colist td img {
 }
 
 @media print {
-  div#footer-badges { display: none; }
+  #footer-badges { display: none; }
 }
 
-div#toc {
+#toc {
   margin-bottom: 2.5em;
 }
 
-div#toctitle {
+#toctitle {
   color: #527bbd;
   font-size: 1.1em;
   font-weight: bold;
@@ -377,7 +353,7 @@ div#toctitle {
   margin-bottom: 0.1em;
 }
 
-div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -430,10 +406,170 @@ span.yellow-background { background: yellow; }
 
 span.big { font-size: 2em; }
 span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
-window.onload = function(){asciidoc.footnotes();}
 var asciidoc = {  // Namespace.
 
 /////////////////////////////////////////////////////////////////////
@@ -475,7 +611,7 @@ toc: function (toclevels) {
 
   function tocEntries(el, toclevels) {
     var result = new Array;
-    var re = new RegExp('[hH]([2-'+(toclevels+1)+'])');
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
     // Function that scans the DOM tree for header elements (the DOM2
     // nodeIterator API would be a better technique but not supported by all
     // browsers).
@@ -495,6 +631,25 @@ toc: function (toclevels) {
   }
 
   var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
   var entries = tocEntries(document.getElementById("content"), toclevels);
   for (var i = 0; i < entries.length; ++i) {
     var entry = entries[i];
@@ -522,24 +677,44 @@ toc: function (toclevels) {
  */
 
 footnotes: function () {
-  var cont = document.getElementById("content");
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
   var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
   var spans = cont.getElementsByTagName("span");
   var refs = {};
   var n = 0;
   for (i=0; i<spans.length; i++) {
     if (spans[i].className == "footnote") {
       n++;
-      // Use [\s\S] in place of . so multi-line matches work.
-      // Because JavaScript has no s (dotall) regex flag.
-      note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
       noteholder.innerHTML +=
         "<div class='footnote' id='_footnote_" + n + "'>" +
         "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
         n + "</a>. " + note + "</div>";
-      spans[i].innerHTML =
-        "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
-        "' title='View footnote' class='footnote'>" + n + "</a>]";
       var id =spans[i].getAttribute("id");
       if (id != null) refs["#"+id] = n;
     }
@@ -559,15 +734,42 @@ footnotes: function () {
       }
     }
   }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
 }
 
 }
+asciidoc.install(2);
 /*]]>*/
 </script>
 </head>
 <body class="article">
 <div id="header">
 <h1>Class Scheduling Media Type</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
 </div>
 <div id="content">
 <div id="preamble">
@@ -604,7 +806,7 @@ IANA Status
 </td>
 <td class="hdlist2">
 <p style="margin-top: 0;">
-<tt>application/vnd.apiacademy-scheduling+xml</tt> Unregistered.
+<code>application/vnd.apiacademy-scheduling+xml</code> Unregistered.
 </p>
 </td>
 </tr>
@@ -620,21 +822,21 @@ hypermedia-style API. This design is extremely limited and is offered as a
 sample, not a production-level specification.</p></div>
 <div class="sect2">
 <h3 id="_layout">Layout</h3>
-<div class="paragraph"><p>This media type defines three primary elements (<tt><a href="#actions">[actions]</a></tt>, <tt><a href="#list">[list]</a></tt>, and
-<tt><a href="#error">[error]</a></tt>). Each <tt><a href="#list">[list]</a></tt> element can have one <tt><a href="#actions">[actions]</a></tt> element and
-one or more <tt><a href="#item">[item]</a></tt> elements.
-Each <tt><a href="#item">[item]</a></tt> element can have one <tt><a href="#display">[display]</a></tt> element and one <tt><a href="#actions">[actions]</a></tt>
-element. The <tt><a href="#display">[display]</a></tt> element can have one or more <tt><a href="#data">[data]</a></tt> elements
-(client may choose to render these for humans). The <tt><a href="#actions">[actions]</a></tt> element
-may contain one more more <tt><a href="#template">[template]</a></tt> and/or <tt><a href="#link">[link]</a></tt> elements. These can
-be used to execute client-server interactions. The <tt><a href="#error">[error]</a></tt> element may
-also contain one or more <tt><a href="#data">[data]</a></tt> elements.</p></div>
+<div class="paragraph"><p>This media type defines three primary elements (<code><a href="#actions">[actions]</a></code>, <code><a href="#list">[list]</a></code>, and
+<code><a href="#error">[error]</a></code>). Each <code><a href="#list">[list]</a></code> element can have one <code><a href="#actions">[actions]</a></code> element and
+one or more <code><a href="#item">[item]</a></code> elements.
+Each <code><a href="#item">[item]</a></code> element can have one <code><a href="#display">[display]</a></code> element and one <code><a href="#actions">[actions]</a></code>
+element. The <code><a href="#display">[display]</a></code> element can have one or more <code><a href="#data">[data]</a></code> elements
+(client may choose to render these for humans). The <code><a href="#actions">[actions]</a></code> element
+may contain one more more <code><a href="#template">[template]</a></code> and/or <code><a href="#link">[link]</a></code> elements. These can
+be used to execute client-server interactions. The <code><a href="#error">[error]</a></code> element may
+also contain one or more <code><a href="#data">[data]</a></code> elements.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_interactions">Interactions</h3>
-<div class="paragraph"><p>Client-server interactions are defined by <tt><a href="#link">[link]</a></tt> and <tt><a href="#template">[template]</a></tt> elements
-using <tt><a href="#data">[data]</a></tt> child elements and <tt><a href="#action">[action]</a></tt> attributes. The <tt><a href="#action">[action]</a></tt>
-atributes are domain-specific <tt><a href="#ID">[ID]</a></tt> values that can be mapped to selected
+<div class="paragraph"><p>Client-server interactions are defined by <code><a href="#link">[link]</a></code> and <code><a href="#template">[template]</a></code> elements
+using <code><a href="#data">[data]</a></code> child elements and <code><a href="#action">[action]</a></code> attributes. The <code><a href="#action">[action]</a></code>
+atributes are domain-specific <code><a href="#ID">[ID]</a></code> values that can be mapped to selected
 Internet protocols (e.g. HTTP, WebSockets, etc.). This specification supplies
 the <a href="#protocol-mapping">Protocol Mapping</a> for HTTP. Other mappings may be added
 in the future.</p></div>
@@ -670,7 +872,7 @@ every valid Class Scheduling document is also a well-formed XML document.</td>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;root&gt;
+<pre><code>&lt;root&gt;
 
   &lt;actions&gt;
     &lt;link href="..." name="..." action="..." prompt="..." /&gt;
@@ -717,7 +919,7 @@ every valid Class Scheduling document is also a well-formed XML document.</td>
     &lt;!-- additional data elements --&gt;
   &lt;/error&gt;
 
-&lt;/root&gt;</tt></pre>
+&lt;/root&gt;</code></pre>
 </div></div>
 </div>
 </div>
@@ -727,127 +929,127 @@ every valid Class Scheduling document is also a well-formed XML document.</td>
 <div class="paragraph"><p>Below is a list of the unique elements in the Class Scheduling media type.</p></div>
 <div class="sect2">
 <h3 id="root">root</h3>
-<div class="paragraph"><p>The <tt>root</tt> element is the very fist element in the document. It is a REQUIRED
-element. It MAY have <tt><a href="#links">[links]</a></tt>, <tt><a href="#list">[list]</a></tt>, or <tt><a href="#error">[error]</a></tt> child elements.
+<div class="paragraph"><p>The <code>root</code> element is the very fist element in the document. It is a REQUIRED
+element. It MAY have <code><a href="#links">[links]</a></code>, <code><a href="#list">[list]</a></code>, or <code><a href="#error">[error]</a></code> child elements.
 It MUST appear only once in a document.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;root&gt;
+<pre><code>&lt;root&gt;
    &lt;actions /&gt;
    &lt;list /&gt;
    &lt;error /&gt;
-&lt;/root&gt;</tt></pre>
+&lt;/root&gt;</code></pre>
 </div></div>
 </div>
 <div class="sect2">
 <h3 id="link">link</h3>
-<div class="paragraph"><p>The <tt>link</tt> element defines a client-server interaction. It MUST have
-<tt><a href="#href">[href]</a></tt> and <tt><a href="#action">[action]</a></tt> attributes. It MAY have <tt><a href="#name">[name]</a></tt> and <tt><a href="#prompt">[prompt]</a></tt>
-attributes. This elements MAY appear as a child element of the <tt><a href="#actions">[actions]</a></tt> element.
+<div class="paragraph"><p>The <code>link</code> element defines a client-server interaction. It MUST have
+<code><a href="#href">[href]</a></code> and <code><a href="#action">[action]</a></code> attributes. It MAY have <code><a href="#name">[name]</a></code> and <code><a href="#prompt">[prompt]</a></code>
+attributes. This elements MAY appear as a child element of the <code><a href="#actions">[actions]</a></code> element.
 It is an OPTIONAL element. It MAY appear multiple times in a document.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;link href="..." name="..." action="..." prompt="..." /&gt;</tt></pre>
+<pre><code>&lt;link href="..." name="..." action="..." prompt="..." /&gt;</code></pre>
 </div></div>
 </div>
 <div class="sect2">
 <h3 id="list">list</h3>
-<div class="paragraph"><p>The <tt>list</tt> element indicates a list resources on the server. It SHOULD have
-one or more <tt><a href="#item">[item]</a></tt> child elements. It MAY have a <tt><a href="#name">[name]</a></tt> attribute.
+<div class="paragraph"><p>The <code>list</code> element indicates a list resources on the server. It SHOULD have
+one or more <code><a href="#item">[item]</a></code> child elements. It MAY have a <code><a href="#name">[name]</a></code> attribute.
 It is an OPTIONAL element. This element MUST appear as a child element of
 the +<a href="#root">[root]</a> element. It MAY appear more than once in a document.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;list name="..."&gt;
+<pre><code>&lt;list name="..."&gt;
    &lt;item /&gt;
    ...
-&lt;/list&gt;</tt></pre>
+&lt;/list&gt;</code></pre>
 </div></div>
 </div>
 <div class="sect2">
 <h3 id="item">item</h3>
-<div class="paragraph"><p>The <tt>item</tt> element defines a single resource on the server. This element
-MAY have a <tt><a href="#display">[display]</a></tt> and/or <tt><a href="#actions">[actions]</a></tt> child element. It MAY have a
-<tt><a href="#name">[name]</a></tt> attribute. It is an OPTIONAL element. This element MUST appear
-as a child element of the <tt><a href="#list">[list]</a></tt> element. It MAY appear more than once
-in a <tt><a href="#list">[list]</a></tt> element.</p></div>
+<div class="paragraph"><p>The <code>item</code> element defines a single resource on the server. This element
+MAY have a <code><a href="#display">[display]</a></code> and/or <code><a href="#actions">[actions]</a></code> child element. It MAY have a
+<code><a href="#name">[name]</a></code> attribute. It is an OPTIONAL element. This element MUST appear
+as a child element of the <code><a href="#list">[list]</a></code> element. It MAY appear more than once
+in a <code><a href="#list">[list]</a></code> element.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;item name="..."&gt;
+<pre><code>&lt;item name="..."&gt;
    &lt;display /&gt;
    &lt;actions /&gt;
-&lt;/item&gt;</tt></pre>
+&lt;/item&gt;</code></pre>
 </div></div>
 </div>
 <div class="sect2">
 <h3 id="display">display</h3>
-<div class="paragraph"><p>The <tt>display</tt> element defines a set of display values for an <tt><a href="#item">[item]</a></tt>. This
-element SHOULD have one or more <tt><a href="#data">[data]</a></tt> child elements. It is an OPTIONAL
-element. It MAY appear as a child element of the <tt><a href="#item">[item]</a></tt> element. This
-element MUST appear no more than once in an <tt><a href="#item">[item]</a></tt> element.</p></div>
+<div class="paragraph"><p>The <code>display</code> element defines a set of display values for an <code><a href="#item">[item]</a></code>. This
+element SHOULD have one or more <code><a href="#data">[data]</a></code> child elements. It is an OPTIONAL
+element. It MAY appear as a child element of the <code><a href="#item">[item]</a></code> element. This
+element MUST appear no more than once in an <code><a href="#item">[item]</a></code> element.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;display&gt;
+<pre><code>&lt;display&gt;
    &lt;data /&gt;
    ...
-&lt;/display&gt;</tt></pre>
+&lt;/display&gt;</code></pre>
 </div></div>
 </div>
 <div class="sect2">
 <h3 id="data">data</h3>
-<div class="paragraph"><p>The <tt>data</tt> element defines a data-point in the document. This element MUST
-have <tt><a href="#name">[name]</a></tt> and <tt><a href="#value">[value]</a></tt> attributes. It MAY have <tt><a href="#prompt">[prompt]</a></tt> and
-<tt><a href="#embed">[embed]</a></tt> attributes. This is an OPTIONAL element. It MAY appear as a
-child element of <tt><a href="#template">[template]</a></tt>, <tt><a href="#display">[display]</a></tt>, and <tt><a href="#error">[error]</a></tt> elements. It
+<div class="paragraph"><p>The <code>data</code> element defines a data-point in the document. This element MUST
+have <code><a href="#name">[name]</a></code> and <code><a href="#value">[value]</a></code> attributes. It MAY have <code><a href="#prompt">[prompt]</a></code> and
+<code><a href="#embed">[embed]</a></code> attributes. This is an OPTIONAL element. It MAY appear as a
+child element of <code><a href="#template">[template]</a></code>, <code><a href="#display">[display]</a></code>, and <code><a href="#error">[error]</a></code> elements. It
 MAY occur multiple times.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;data name="..." value="..." prompt="..." embed="true|false" /&gt;</tt></pre>
+<pre><code>&lt;data name="..." value="..." prompt="..." embed="true|false" /&gt;</code></pre>
 </div></div>
 </div>
 <div class="sect2">
 <h3 id="actions">actions</h3>
-<div class="paragraph"><p>The <tt>actions</tt> element contains a list of possible client-server interactions.
-It SHOULD have one or more <tt><a href="#template">[template]</a></tt> and/or <tt><a href="#link">[link]</a></tt> child elements.
-This is an OPTIONAL element. The <tt>actions</tt> element MAY appear as a
-child of the <tt><a href="#root">[root]</a></tt>, <tt><a href="#list">[list]</a></tt>, or  <tt><a href="#item">[item]</a></tt> element. If it does appear
+<div class="paragraph"><p>The <code>actions</code> element contains a list of possible client-server interactions.
+It SHOULD have one or more <code><a href="#template">[template]</a></code> and/or <code><a href="#link">[link]</a></code> child elements.
+This is an OPTIONAL element. The <code>actions</code> element MAY appear as a
+child of the <code><a href="#root">[root]</a></code>, <code><a href="#list">[list]</a></code>, or  <code><a href="#item">[item]</a></code> element. If it does appear
 as a child element, it MUST appear only once in that element.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;actions&gt;
+<pre><code>&lt;actions&gt;
    &lt;template /&gt;
    ...
    &lt;link /&gt;
    ...
-&lt;/actions&gt;</tt></pre>
+&lt;/actions&gt;</code></pre>
 </div></div>
 </div>
 <div class="sect2">
 <h3 id="template">template</h3>
-<div class="paragraph"><p>The <tt>template</tt> element is used to define a client-server interaction. This
-elemust MUST have <tt><a href="#href">[href]</a></tt> and <tt><a href="#action">[action]</a></tt> attributes and MAY have
-a <tt><a href="#name">[name]</a></tt> attribute. It MAY have one or more <tt><a href="#data">[data]</a></tt> child elements.
-This is an OPTIONAL element. The <tt>template</tt> element MAY appear as a child
-of the <tt><a href="#actions">[actions]</a></tt> element. It can occur multiple times.</p></div>
+<div class="paragraph"><p>The <code>template</code> element is used to define a client-server interaction. This
+elemust MUST have <code><a href="#href">[href]</a></code> and <code><a href="#action">[action]</a></code> attributes and MAY have
+a <code><a href="#name">[name]</a></code> attribute. It MAY have one or more <code><a href="#data">[data]</a></code> child elements.
+This is an OPTIONAL element. The <code>template</code> element MAY appear as a child
+of the <code><a href="#actions">[actions]</a></code> element. It can occur multiple times.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;template href="..." name="..." action="..."&gt;
+<pre><code>&lt;template href="..." name="..." action="..."&gt;
   &lt;data /&gt;
-&lt;/template&gt;</tt></pre>
+&lt;/template&gt;</code></pre>
 </div></div>
 </div>
 <div class="sect2">
 <h3 id="error">error</h3>
-<div class="paragraph"><p>The <tt>error</tt> element is used to indicate any details regarding an error that
-occurred in the last request. It SHOULD have one or more <tt><a href="#data">[data]</a></tt> child
-elements. This is an OPTIONAL element. The <tt>error</tt> element MAY appear as a
-child of the <tt><a href="#root">[root]</a></tt> element. It MUST appear only once in a document.</p></div>
+<div class="paragraph"><p>The <code>error</code> element is used to indicate any details regarding an error that
+occurred in the last request. It SHOULD have one or more <code><a href="#data">[data]</a></code> child
+elements. This is an OPTIONAL element. The <code>error</code> element MAY appear as a
+child of the <code><a href="#root">[root]</a></code> element. It MUST appear only once in a document.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;error&gt;
+<pre><code>&lt;error&gt;
    &lt;data /&gt;
    ...
-&lt;/error&gt;</tt></pre>
+&lt;/error&gt;</code></pre>
 </div></div>
 </div>
 </div>
@@ -858,19 +1060,19 @@ child of the <tt><a href="#root">[root]</a></tt> element. It MUST appear only on
 <div class="paragraph"><p>Below are the unique attributes in the Class Scheduling media type.</p></div>
 <div class="sect2">
 <h3 id="name">name</h3>
-<div class="paragraph"><p>The <tt>name</tt> attribute is used to identify the element. This does not need to
+<div class="paragraph"><p>The <code>name</code> attribute is used to identify the element. This does not need to
 be a unique value in the document (e.g. there can be more than one
-<tt>name="product"</tt> in the same document). This value for this attribute MUST
+<code>name="product"</code> in the same document). This value for this attribute MUST
 NOT be left empty and it MUST be a valid <a href="#ID">[ID]</a> value.</p></div>
 </div>
 <div class="sect2">
 <h3 id="value">value</h3>
-<div class="paragraph"><p>The <tt>value</tt> attribute is used to hold general strings. The value of this
+<div class="paragraph"><p>The <code>value</code> attribute is used to hold general strings. The value of this
 attribute MAY be left empty and MUST be a valid <a href="#TEXT">[TEXT]</a> value.</p></div>
 </div>
 <div class="sect2">
 <h3 id="action">action</h3>
-<div class="paragraph"><p>The <tt>action</tt> attribute holds the identifier of the action the client can
+<div class="paragraph"><p>The <code>action</code> attribute holds the identifier of the action the client can
 execute. The value of this attribute MUST be a valid <a href="#ID">[ID]</a> value.
 For this release, the following values are understood.</p></div>
 <div class="paragraph"><p>See the <a href="#protocol-mapping">Protocol Mapping</a> section for details regarding
@@ -879,20 +1081,20 @@ compose and execute requests.</p></div>
 </div>
 <div class="sect2">
 <h3 id="href">href</h3>
-<div class="paragraph"><p>The <tt>href</tt> attribute holds the <a href="#URI">[URI]</a> assoicated with the <tt><a href="#action">[action]</a></tt>.
+<div class="paragraph"><p>The <code>href</code> attribute holds the <a href="#URI">[URI]</a> assoicated with the <code><a href="#action">[action]</a></code>.
 The value of this attribute MUST be a valid <a href="#URI">[URI]</a> and MUST NOT be left empty.</p></div>
 </div>
 <div class="sect2">
 <h3 id="prompt">prompt</h3>
-<div class="paragraph"><p>The <tt>prompt</tt> attribute holds the human-readable text associated with the
-<tt><a href="#data">[data]</a></tt>, <tt><a href="#link">[link]</a></tt> or <tt><a href="#template">[template]</a></tt> elements. The value of this attribute
+<div class="paragraph"><p>The <code>prompt</code> attribute holds the human-readable text associated with the
+<code><a href="#data">[data]</a></code>, <code><a href="#link">[link]</a></code> or <code><a href="#template">[template]</a></code> elements. The value of this attribute
 MUST be a valid <a href="#TEXT">[TEXT]</a> value.</p></div>
 </div>
 <div class="sect2">
 <h3 id="embed">embed</h3>
-<div class="paragraph"><p>The <tt>embed</tt> attribute indicates whether the associated <tt><a href="#href">[href]</a></tt> value
-should be treated as either a navigation (<tt>embed="false"</tt>) or a transclusion
-(<tt>embed="true"</tt>). An example of a transclusion is the <tt>img</tt> tag in HTML.
+<div class="paragraph"><p>The <code>embed</code> attribute indicates whether the associated <code><a href="#href">[href]</a></code> value
+should be treated as either a navigation (<code>embed="false"</code>) or a transclusion
+(<code>embed="true"</code>). An example of a transclusion is the <code>img</code> tag in HTML.
 The value of this attribute  MUST NOT be left empty and MUST be a valid
 <a href="#BOOLEAN">[BOOLEAN]</a> value.</p></div>
 </div>
@@ -919,7 +1121,7 @@ specification.</p></div>
 </div>
 <div class="sect2">
 <h3 id="BOOLEAN">BOOLEAN</h3>
-<div class="paragraph"><p>BOOLEAN values MUST be either <tt>true</tt> or <tt>false</tt>.</p></div>
+<div class="paragraph"><p>BOOLEAN values MUST be either <code>true</code> or <code>false</code>.</p></div>
 </div>
 </div>
 </div>
@@ -927,15 +1129,15 @@ specification.</p></div>
 <h2 id="protocol-mapping">Protocol Mapping</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>This media type is designed to work with multiple Internet protocols. To
-accompish this goal, the media type relies on <tt><a href="#template">[template]</a></tt> and <tt><a href="#link">[link]</a></tt>
+accompish this goal, the media type relies on <code><a href="#template">[template]</a></code> and <code><a href="#link">[link]</a></code>
 elements to define the client-server interactions. These elements each have an
-<tt><a href="#action">[action]</a></tt> attribute which indicates the type of interaction to execute.
+<code><a href="#action">[action]</a></code> attribute which indicates the type of interaction to execute.
 It is these values which can be used as a guide when selecting the protocol-level
 details needed to successfully execute the intended interaction.</p></div>
 <div class="sect2">
 <h3 id="_http">HTTP</h3>
-<div class="paragraph"><p>Below is the list of <tt><a href="#action">[action]</a></tt> values defined in this specification along
-with information on how to use the associated <tt><a href="#template">[template]</a></tt> and <tt><a href="#link">[link]</a></tt>
+<div class="paragraph"><p>Below is the list of <code><a href="#action">[action]</a></code> values defined in this specification along
+with information on how to use the associated <code><a href="#template">[template]</a></code> and <code><a href="#link">[link]</a></code>
 elements of compose a valid Class Scheduling request for HTTP.</p></div>
 <div class="hdlist"><table>
 <tr>
@@ -945,8 +1147,8 @@ add
 </td>
 <td class="hdlist2">
 <p style="margin-top: 0;">
-use the <tt><a href="#data">[data]</a></tt> child elements to compose a POST request to the
-<tt><a href="#href">[href]</a></tt> using the <tt>application/x-www-form-urlencoded</tt> media type.
+use the <code><a href="#data">[data]</a></code> child elements to compose a POST request to the
+<code><a href="#href">[href]</a></code> using the <code>application/x-www-form-urlencoded</code> media type.
 </p>
 </td>
 </tr>
@@ -957,8 +1159,8 @@ update
 </td>
 <td class="hdlist2">
 <p style="margin-top: 0;">
-use the <tt><a href="#data">[data]</a></tt> child elements to compose a PUT request to the
-<tt><a href="#href">[href]</a></tt> using the <tt>application/x-www-form-urlencoded</tt> media type.
+use the <code><a href="#data">[data]</a></code> child elements to compose a PUT request to the
+<code><a href="#href">[href]</a></code> using the <code>application/x-www-form-urlencoded</code> media type.
 </p>
 </td>
 </tr>
@@ -969,7 +1171,7 @@ remove
 </td>
 <td class="hdlist2">
 <p style="margin-top: 0;">
-use the <tt><a href="#href">[href]</a></tt> to execute a DELETE request.
+use the <code><a href="#href">[href]</a></code> to execute a DELETE request.
 </p>
 </td>
 </tr>
@@ -980,7 +1182,7 @@ read
 </td>
 <td class="hdlist2">
 <p style="margin-top: 0;">
-use the <tt><a href="#href">[href]</a></tt> to execute a GET request.
+use the <code><a href="#href">[href]</a></code> to execute a GET request.
 </p>
 </td>
 </tr>
@@ -991,7 +1193,7 @@ list
 </td>
 <td class="hdlist2">
 <p style="margin-top: 0;">
-use the <tt><a href="#href">[href]</a></tt> to execute a GET request.
+use the <code><a href="#href">[href]</a></code> to execute a GET request.
 </p>
 </td>
 </tr>
@@ -1002,8 +1204,8 @@ filter
 </td>
 <td class="hdlist2">
 <p style="margin-top: 0;">
-use the <tt><a href="#data">[data]</a></tt> child elements to compose a <a href="#URI">[URI]</a> querystring
-for the <tt><a href="#href">[href]</a></tt> and execute a GET request.
+use the <code><a href="#data">[data]</a></code> child elements to compose a <a href="#URI">[URI]</a> querystring
+for the <code><a href="#href">[href]</a></code> and execute a GET request.
 </p>
 </td>
 </tr>
@@ -1014,8 +1216,8 @@ assign
 </td>
 <td class="hdlist2">
 <p style="margin-top: 0;">
-use the <tt><a href="#data">[data]</a></tt> child elements to compose a POST request to the
-<tt><a href="#href">[href]</a></tt> using the <tt>application/x-www-form-urlencoded</tt> media type.
+use the <code><a href="#data">[data]</a></code> child elements to compose a POST request to the
+<code><a href="#href">[href]</a></code> using the <code>application/x-www-form-urlencoded</code> media type.
 </p>
 </td>
 </tr>
@@ -1026,8 +1228,8 @@ unassign
 </td>
 <td class="hdlist2">
 <p style="margin-top: 0;">
-use the <tt><a href="#data">[data]</a></tt> child elements to compose a POST request to the
-<tt><a href="#href">[href]</a></tt> using the <tt>application/x-www-form-urlencoded</tt> media type.
+use the <code><a href="#data">[data]</a></code> child elements to compose a POST request to the
+<code><a href="#href">[href]</a></code> using the <code>application/x-www-form-urlencoded</code> media type.
 </p>
 </td>
 </tr>
@@ -1042,8 +1244,8 @@ use the <tt><a href="#data">[data]</a></tt> child elements to compose a POST req
 other vocabularies ("foreign markup") can be used in a Class Sheduling
 document. Any extensions to the this vocabulary MUST NOT redefine any elements,
 attributes, attribute values, or data types defined in this document.</p></div>
-<div class="paragraph"><p>This design may also be extended by creating a new <a href="#protocol-mapping">Protocol Mapping</a> for the existing <tt>action</tt> values. Any new <a href="#protocol-mapping">Protocol Mapping</a> MUST NOT redefine any existing <tt>action</tt> values and SHOULD
-NOT introduce any new <tt>action</tt> values.</p></div>
+<div class="paragraph"><p>This design may also be extended by creating a new <a href="#protocol-mapping">Protocol Mapping</a> for the existing <code>action</code> values. Any new <a href="#protocol-mapping">Protocol Mapping</a> MUST NOT redefine any existing <code>action</code> values and SHOULD
+NOT introduce any new <code>action</code> values.</p></div>
 <div class="paragraph"><p>Clients that do not recognize extensions to this vocabulary SHOULD ignore them.</p></div>
 <div class="admonitionblock">
 <table><tr>
@@ -1092,7 +1294,7 @@ as part of a series of articles for the <a href="http://infoq.com">InfoQ</a> Web
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-01-27 10:13:09 EST
+Last updated 2013-02-06 16:53:16 Eastern Standard Time
 </div>
 </div>
 </body>

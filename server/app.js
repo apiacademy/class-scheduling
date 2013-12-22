@@ -14,7 +14,7 @@ var querystring = require('querystring');
 
 // shared vars
 var root = '';
-var port = (process.env.PORT || 1337);
+var port = (process.env.PORT || 8282);
 var prodType = 'application/vnd.apiacademy-schedule+xml';
 var testType = 'application/xml';
 var csType = '';

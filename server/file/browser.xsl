@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
-  <!--	
-  <xsl:output method="html"
-    omit-xml-declaration="yes"
-    doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-    doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
+  <!--
+  /*********************************************
+   * Class Scheduling 
+   * Representation Service
+   * January 2013
+   * Mike Amundsen (@mamund)
+   * http://www.infoq.com/author/Mike-Amundsen
+   * http://www.linkedin.com/in/mikeamundsen
+   ********************************************/
   -->
   <xsl:output
     method="html"
@@ -17,30 +20,41 @@
     <html>
       <head>
         <title>
-          Class Scheduling
+          Rocket Science University
         </title>
-	<link type="text/css" rel="stylesheet" href="/file/browser.css" />
+	      <link type="text/css" rel="stylesheet" href="/file/browser.css" />
       </head>
       <body>
-        <h1>Class Scheduling</h1>
-	<xsl:apply-templates select="//root/actions" />
-	<p>To view records, select a menu item from above.</p>
-        <xsl:apply-templates select="//root/list" />
-        <xsl:apply-templates select="//root/error" />
+	      <div class="hardbg">
+	        <p>
+            <img src="/file/Rocket_logo.jpg" align="right" width="165" />
+            <h1>Rocket Science University</h1>
+	          <h2>Class Scheduling</h2>
+          </p>
+	        <xsl:apply-templates select="//root/actions" />
+	        <p>To view records, select a menu item from above.</p>
+        </div>
+	      <div class="softbg">
+	        <xsl:apply-templates select="//root/error" />
+          <xsl:apply-templates select="//root/list" />
+        </div>
+	      <div class="hardbg">
+	        <p class="footer">
+            Roc-Sci-You : No better place in the universe!
+	        </p>
+	      </div>
       </body>
-      <!--
       <script src="/file/browser.js" type="text/javascript">//na</script>
-      -->
     </html>
   </xsl:template>
   
   <xsl:template match="list">
     <div id="{@name}" class="list-block">
       <h2><xsl:value-of select="@name" /></h2>
-      <xsl:apply-templates select="actions" />
       <div clas="item-set">
         <xsl:apply-templates select="item" />
       </div>
+      <xsl:apply-templates select="actions" />
     </div> 
   </xsl:template>
 
@@ -56,9 +70,11 @@
   </xsl:template>  
 
   <xsl:template match="actions">
-    <ul class="links">
-      <xsl:apply-templates select="link" />
-    </ul> 
+    <xsl:if test="count(link)>0">
+      <ul class="links">
+        <xsl:apply-templates select="link" />
+      </ul>
+    </xsl:if>
     <xsl:apply-templates select="template" />  
   </xsl:template>
       
@@ -69,11 +85,15 @@
   </xsl:template>
   
   <xsl:template match="link">
-    <li><a href="{@href}" title="{@prompt}" class="link"><xsl:value-of select="@prompt"/></a></li>
+    <li>
+      <a href="{@href}" title="{@prompt}" class="link" legend="{@action}">
+        <xsl:value-of select="@prompt"/>
+      </a>
+    </li>
   </xsl:template>
   
   <xsl:template match="template">
-    <form action="{@href}" method="post" legend="{@action}">
+    <form action="{@href}" method="get" legend="{@action}">
       <fieldset>
         <legend><xsl:value-of select="@action"/></legend>
         <xsl:apply-templates select="data" mode="input"/> 
@@ -93,8 +113,8 @@
   </xsl:template>
 
   <xsl:template match="data" mode="display">
-    <dt><xsl:value-of select="@prompt" /></dt>
-    <dd><xsl:value-of select="@value"/></dd>
+    <dt class="{@prompt}"><xsl:value-of select="@prompt" /></dt>
+    <dd class="{@prompt}"><xsl:value-of select="@value"/></dd>
   </xsl:template>
   
   <xsl:template match="error">

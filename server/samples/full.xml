@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/file/browser.xsl" ?>
+<root>
+   <actions>
+      <link name="home" href="http://localhost:1337/" action="read" prompt="Home" />
+      <link name="student" href="http://localhost:1337/student/" action="list" prompt="Students" />
+      <link name="teacher" href="http://localhost:1337/teacher/" action="list" prompt="Teachers" />
+      <link name="course" href="http://localhost:1337/course/" action="list" prompt="Courses" />
+      <link name="schedule" href="http://localhost:1337/schedule/" action="list" prompt="Schedules" />
+   </actions>
+   <list name="course">
+      <actions>
+         <template name="course" href="http://localhost:1337/course/" action="add" prompt="Add course">
+            <data name="courseName" prompt="courseName" />
+            <data name="courseCapacity" prompt="courseCapacity" />
+            <data name="courseDescription" prompt="courseDescription" />
+         </template>
+         <template name="course" href="http://localhost:1337/course/" action="filter" prompt="Filter course">
+            <data name="courseName" prompt="courseName" />
+         </template>
+      </actions>
+      <item name="course">
+         <display>
+            <data name="courseName" prompt="courseName" value="HTTP Basics" />
+            <data name="courseCapacity" prompt="courseCapacity" value="10" />
+            <data name="courseDescription" prompt="courseDescription" value="Fundamental HTTP for newbies" />
+            <data name="id" prompt="id" value="164qw4h65fm" />
+            <data name="dateCreated" prompt="dateCreated" value="2013-02-08T01:58:58.306Z" />
+         </display>
+         <actions>
+            <template name="course" href="http://localhost:1337/course/164qw4h65fm" action="update">
+               <data name="courseName" prompt="courseName" value="HTTP Basics" />
+               <data name="courseCapacity" prompt="courseCapacity" value="10" />
+               <data name="courseDescription" prompt="courseDescription" value="Fundamental HTTP for newbies" />
+            </template>
+            <link name="course" href="http://localhost:1337/course/164qw4h65fm" action="remove" prompt="Remove" />
+            <link name="course" href="http://localhost:1337/course/164qw4h65fm" action="read" prompt="Read" />
+         </actions>
+      </item>
+      <item name="course">
+         <display>
+            <data name="courseName" prompt="courseName" value="Hypermedia 101" />
+            <data name="courseCapacity" prompt="courseCapacity" value="15" />
+            <data name="courseDescription" prompt="courseDescription" value="The basics of hypermedia design" />
+            <data name="id" prompt="id" value="1c1llald1bu" />
+            <data name="dateCreated" prompt="dateCreated" value="2013-02-08T01:59:59.394Z" />
+         </display>
+         <actions>
+            <template name="course" href="http://localhost:1337/course/1c1llald1bu" action="update">
+               <data name="courseName" prompt="courseName" value="Hypermedia 101" />
+               <data name="courseCapacity" prompt="courseCapacity" value="15" />
+               <data name="courseDescription" prompt="courseDescription" value="The basics of hypermedia design" />
+            </template>
+            <link name="course" href="http://localhost:1337/course/1c1llald1bu" action="remove" prompt="Remove" />
+            <link name="course" href="http://localhost:1337/course/1c1llald1bu" action="read" prompt="Read" />
+         </actions>
+      </item>
+      <item name="course">
+         <display>
+            <data name="courseName" prompt="courseName" value="HTTP Basics" />
+            <data name="courseCapacity" prompt="courseCapacity" value="10" />
+            <data name="courseDescription" prompt="courseDescription" value="Fundamental HTTP for newbies" />
+            <data name="id" prompt="id" value="2hy0gco077s" />
+            <data name="dateCreated" prompt="dateCreated" value="2013-02-08T15:18:41.127Z" />
+         </display>
+         <actions>
+            <template name="course" href="http://localhost:1337/course/2hy0gco077s" action="update">
+               <data name="courseName" prompt="courseName" value="HTTP Basics" />
+               <data name="courseCapacity" prompt="courseCapacity" value="10" />
+               <data name="courseDescription" prompt="courseDescription" value="Fundamental HTTP for newbies" />
+            </template>
+            <link name="course" href="http://localhost:1337/course/2hy0gco077s" action="remove" prompt="Remove" />
+            <link name="course" href="http://localhost:1337/course/2hy0gco077s" action="read" prompt="Read" />
+         </actions>
+      </item>
+   </list>
+</root>
+

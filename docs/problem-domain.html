@@ -3,27 +3,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.4" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
 <title>Class Scheduling Problem Domain</title>
 <style type="text/css">
-/* Sans-serif font. */
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
 h1, h2, h3, h4, h5, h6,
 div.title, caption.title,
 thead, p.table.header,
-div#toctitle,
-span#author, span#revnumber, span#revdate, span#revremark,
-div#footer {
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
   font-family: Arial,Helvetica,sans-serif;
-}
-
-/* Serif font. */
-div.sectionbody {
-  font-family: Georgia,"Times New Roman",Times,serif;
-}
-
-/* Monospace font. */
-tt {
-  font-size: inherit;
 }
 
 body {
@@ -48,11 +45,6 @@ strong {
   color: #083194;
 }
 
-tt {
-  font-size: inherit;
-  color: navy;
-}
-
 h1, h2, h3, h4, h5, h6 {
   color: #527bbd;
   margin-top: 1.2em;
@@ -71,6 +63,9 @@ h3 {
 }
 h3 + * {
   clear: left;
+}
+h5 {
+  font-size: 1.0em;
 }
 
 div.sectionbody {
@@ -92,41 +87,45 @@ ul, ol, li > p {
 ul > li     { color: #aaa; }
 ul > li > * { color: black; }
 
-pre {
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
   padding: 0;
   margin: 0;
 }
 
-span#author {
+
+#author {
   color: #527bbd;
   font-weight: bold;
   font-size: 1.1em;
 }
-span#email {
+#email {
 }
-span#revnumber, span#revdate, span#revremark {
+#revnumber, #revdate, #revremark {
 }
 
-div#footer {
+#footer {
   font-size: small;
   border-top: 2px solid silver;
   padding-top: 0.5em;
   margin-top: 4.0em;
 }
-div#footer-text {
+#footer-text {
   float: left;
   padding-bottom: 0.5em;
 }
-div#footer-badges {
+#footer-badges {
   float: right;
   padding-bottom: 0.5em;
 }
 
-div#preamble {
+#preamble {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
 }
-div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
+div.imageblock, div.exampleblock, div.verseblock,
 div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
 div.admonitionblock {
   margin-top: 1.0em;
@@ -184,7 +183,7 @@ div.quoteblock, div.verseblock {
   margin-left: 1.0em;
   margin-right: 10%;
   border-left: 5px solid #f0f0f0;
-  color: #777777;
+  color: #888;
 }
 
 div.quoteblock > div.attribution {
@@ -267,35 +266,12 @@ div.compact div, div.compact div {
   margin-bottom: 0.1em;
 }
 
-div.tableblock > table {
-  border: 3px solid #527bbd;
-}
-thead, p.table.header {
-  font-weight: bold;
-  color: #527bbd;
-}
 tfoot {
   font-weight: bold;
 }
 td > div.verse {
   white-space: pre;
 }
-p.table {
-  margin-top: 0;
-}
-/* Because the table frame attribute is overriden by CSS in most browsers. */
-div.tableblock > table[frame="void"] {
-  border-style: none;
-}
-div.tableblock > table[frame="hsides"] {
-  border-left-style: none;
-  border-right-style: none;
-}
-div.tableblock > table[frame="vsides"] {
-  border-top-style: none;
-  border-bottom-style: none;
-}
-
 
 div.hdlist {
   margin-top: 0.8em;
@@ -362,14 +338,14 @@ div.colist td img {
 }
 
 @media print {
-  div#footer-badges { display: none; }
+  #footer-badges { display: none; }
 }
 
-div#toc {
+#toc {
   margin-bottom: 2.5em;
 }
 
-div#toctitle {
+#toctitle {
   color: #527bbd;
   font-size: 1.1em;
   font-weight: bold;
@@ -377,7 +353,7 @@ div#toctitle {
   margin-bottom: 0.1em;
 }
 
-div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -430,10 +406,170 @@ span.yellow-background { background: yellow; }
 
 span.big { font-size: 2em; }
 span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
-window.onload = function(){asciidoc.footnotes();}
 var asciidoc = {  // Namespace.
 
 /////////////////////////////////////////////////////////////////////
@@ -475,7 +611,7 @@ toc: function (toclevels) {
 
   function tocEntries(el, toclevels) {
     var result = new Array;
-    var re = new RegExp('[hH]([2-'+(toclevels+1)+'])');
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
     // Function that scans the DOM tree for header elements (the DOM2
     // nodeIterator API would be a better technique but not supported by all
     // browsers).
@@ -495,6 +631,25 @@ toc: function (toclevels) {
   }
 
   var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
   var entries = tocEntries(document.getElementById("content"), toclevels);
   for (var i = 0; i < entries.length; ++i) {
     var entry = entries[i];
@@ -522,24 +677,44 @@ toc: function (toclevels) {
  */
 
 footnotes: function () {
-  var cont = document.getElementById("content");
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
   var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
   var spans = cont.getElementsByTagName("span");
   var refs = {};
   var n = 0;
   for (i=0; i<spans.length; i++) {
     if (spans[i].className == "footnote") {
       n++;
-      // Use [\s\S] in place of . so multi-line matches work.
-      // Because JavaScript has no s (dotall) regex flag.
-      note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
       noteholder.innerHTML +=
         "<div class='footnote' id='_footnote_" + n + "'>" +
         "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
         n + "</a>. " + note + "</div>";
-      spans[i].innerHTML =
-        "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
-        "' title='View footnote' class='footnote'>" + n + "</a>]";
       var id =spans[i].getAttribute("id");
       if (id != null) refs["#"+id] = n;
     }
@@ -559,15 +734,42 @@ footnotes: function () {
       }
     }
   }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
 }
 
 }
+asciidoc.install(2);
 /*]]>*/
 </script>
 </head>
 <body class="article">
 <div id="header">
 <h1>Class Scheduling Problem Domain</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
 </div>
 <div id="content">
 <div id="preamble">
@@ -621,7 +823,7 @@ HTML, etc.) used to create client-server interactions.</p></div>
 <div class="sect2">
 <h3 id="_initial_application">Initial Application</h3>
 <div class="paragraph"><p>The initial application of this problem domain is to a custom media type design
-named "Class Scheduling" with the IANA identifier of <tt>application/vnd.apiacademy-scheduling+xml</tt>.
+named "Class Scheduling" with the IANA identifier of <code>application/vnd.apiacademy-scheduling+xml</code>.
 However, there may be other applications of this vocabulary in the future.</p></div>
 </div>
 <div class="sect2">
@@ -629,27 +831,27 @@ However, there may be other applications of this vocabulary in the future.</p></
 <div class="paragraph"><p>Creating valid client requests for this problem domain requires applying the
 <a href="#link-identifiers">Link Identifer</a>, the <a href="#actions">Action</a> value, and the
 <a href="#data-elements">Data Elements</a> to a specific media type.  For example,
-below is a response representation that can be used to create a new <tt><a href="#course">[course]</a></tt>
-resource using the <tt>application/vnd.apiacademy-scheduling+xml</tt> media type:</p></div>
+below is a response representation that can be used to create a new <code><a href="#course">[course]</a></code>
+resource using the <code>application/vnd.apiacademy-scheduling+xml</code> media type:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;!-- application/vnd.apiacademy-scheduling+xml example --&gt;
+<pre><code>&lt;!-- application/vnd.apiacademy-scheduling+xml example --&gt;
 &lt;template name="course" action="add" href="{uri}"&gt;
    &lt;data name="courseCapacity" value="15" /&gt;
    &lt;data name="courseName" value="Hypermedia 101" /&gt;
    &lt;data name="courseDescription" value="An introduction to hypermedia programming." /&gt;
-&lt;/template&gt;</tt></pre>
+&lt;/template&gt;</code></pre>
 </div></div>
 <div class="paragraph"><p>A possible HTML5 representation of the same action might look like this:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>&lt;!-- HTML5 example --&gt;
+<pre><code>&lt;!-- HTML5 example --&gt;
 &lt;form name="course" class="add" action="{uri}" method="POST"&gt;
   &lt;input type="text" name="courseCapacity" value="15" /&gt;
   &lt;input type="text" name="courseName" value="Hypermedia 101" /&gt;
   &lt;input type="text" name="courseDescription" value="An introduction to hypermedia programming." /&gt;
   &lt;input type="submit" /&gt;
-&lt;/form&gt;</tt></pre>
+&lt;/form&gt;</code></pre>
 </div></div>
 <div class="admonitionblock">
 <table><tr>
@@ -691,20 +893,20 @@ cellspacing="0" cellpadding="4">
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#course">[course]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#courseCapacity">[courseCapacity]</a></tt>, <tt><a href="#courseDescription">[courseDescription]</a></tt>, <tt><a href="#courseName">[courseName]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#course">[course]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#courseCapacity">[courseCapacity]</a></code>, <code><a href="#courseDescription">[courseDescription]</a></code>, <code><a href="#courseName">[courseName]</a></code></p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#schedule">[schedule]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#courseId">[courseId]</a></tt>, <tt><a href="#scheduleSlot">[scheduleSlot]</a></tt>, <tt><a href="#teacherId">[teacherId]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#schedule">[schedule]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#courseId">[courseId]</a></code>, <code><a href="#scheduleSlot">[scheduleSlot]</a></code>, <code><a href="#teacherId">[teacherId]</a></code></p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#student">[student]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#studentName">[studentName]</a></tt>, <tt><a href="#studentStanding">[studentStanding]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#student">[student]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#studentName">[studentName]</a></code>, <code><a href="#studentStanding">[studentStanding]</a></code></p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#teacher">[teacher]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#teacherName">[teacherName]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#teacher">[teacher]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#teacherName">[teacherName]</a></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -729,16 +931,16 @@ cellspacing="0" cellpadding="4">
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#course">[course]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#courseCapacity">[courseCapacity]</a></tt>, <tt><a href="#courseDescription">[courseDescription]</a></tt>, <tt><a href="#courseName">[courseName]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#course">[course]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#courseCapacity">[courseCapacity]</a></code>, <code><a href="#courseDescription">[courseDescription]</a></code>, <code><a href="#courseName">[courseName]</a></code></p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#student">[student]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#studentName">[studentName]</a></tt>, <tt><a href="#studentStanding">[studentStanding]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#student">[student]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#studentName">[studentName]</a></code>, <code><a href="#studentStanding">[studentStanding]</a></code></p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#teacher">[teacher]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#teacherName">[teacherName]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#teacher">[teacher]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#teacherName">[teacherName]</a></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -763,19 +965,19 @@ cellspacing="0" cellpadding="4">
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#course">[course]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#course">[course]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#schedule">[schedule]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#schedule">[schedule]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#student">[student]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#student">[student]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#teacher">[teacher]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#teacher">[teacher]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 </tbody>
@@ -801,23 +1003,23 @@ cellspacing="0" cellpadding="4">
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#course">[course]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#course">[course]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#home">[home]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#home">[home]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#schedule">[schedule]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#schedule">[schedule]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#student">[student]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#student">[student]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#teacher">[teacher]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#teacher">[teacher]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 </tbody>
@@ -843,19 +1045,19 @@ cellspacing="0" cellpadding="4">
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#course">[course]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#course">[course]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#schedule">[schedule]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#schedule">[schedule]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#student">[student]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#student">[student]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#teacher">[teacher]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#teacher">[teacher]</a></code></p></td>
 <td align="left" valign="top"><p class="table">NONE</p></td>
 </tr>
 </tbody>
@@ -881,16 +1083,16 @@ cellspacing="0" cellpadding="4">
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#course">[course]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#courseName">[courseName]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#course">[course]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#courseName">[courseName]</a></code></p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#student">[student]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#studentName">[studentName]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#student">[student]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#studentName">[studentName]</a></code></p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#teacher">[teacher]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#teacherName">[teacherName]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#teacher">[teacher]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#teacherName">[teacherName]</a></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -915,12 +1117,12 @@ cellspacing="0" cellpadding="4">
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#schedule">[schedule]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#studentId">[studentId]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#schedule">[schedule]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#studentId">[studentId]</a></code></p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#student">[student]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#scheduleId">[scheduleId]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#student">[student]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#scheduleId">[scheduleId]</a></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -945,12 +1147,12 @@ cellspacing="0" cellpadding="4">
 </thead>
 <tbody>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#schedule">[schedule]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#studentId">[studentId]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#schedule">[schedule]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#studentId">[studentId]</a></code></p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt><a href="#student">[student]</a></tt></p></td>
-<td align="left" valign="top"><p class="table"><tt><a href="#scheduleId">[scheduleId]</a></tt></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#student">[student]</a></code></p></td>
+<td align="left" valign="top"><p class="table"><code><a href="#scheduleId">[scheduleId]</a></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1067,7 +1269,7 @@ as part of a series of articles for the <a href="http://infoq.com">InfoQ</a> Web
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-01-11 20:52:21 EST
+Last updated 2013-02-06 16:53:16 Eastern Standard Time
 </div>
 </div>
 </body>
