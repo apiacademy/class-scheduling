@@ -36,7 +36,7 @@ Each document MUST have a +<root>+ element. All other top-level elements
 are OPTIONAL.
 
 == Document Samples
-There are a number of Class Scheduling documents where are quite minimal.
+There are a number of Class Scheduling documents which are quite minimal.
 
 === Smallest Valid Document
 The smallest valid Class Scheduling document is one that only contains 
